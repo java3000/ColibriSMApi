@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Thread {
     boolean can_reply;
-    PostLite post;
-    List<PostLite> next;
-    List<PostLite> prev;
+    Post post;
+    List<Post> next;
+    List<Post> prev;
 }

@@ -4,131 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcafd76f-e54b-49dc-adcd-d8f67c3f8404" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/ApiClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ActiveUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ApprovedRequests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Auth.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Avatar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Bookmark.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ChatUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Cover.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Feeds.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Follow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Follower.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Following.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/HashTag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Image.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Like.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Liker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Media.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/MediaX.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/MyProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/OtherProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Owner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/PollData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/PollOption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Post.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/PostLite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Posts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/PrivacySettings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Reply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ReplyTo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Repost.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Reposts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Swift.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/SwiftMedia.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/SwiftMediaLink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/SwiftUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/SwiftView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Thread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/UserLite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Verification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Video.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/AddBookmarkRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ApproveFollowRequestRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ChangeAvatarRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ChangeCoverRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ChangeLanguageRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ChangePasswordRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ChangePostPrivacyRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ClearChatRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/CoverRepositionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeleteAccountRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeleteMessageRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeleteNotificationsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeletePostMediaRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeletePostRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeleteSwiftMediaRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/DeleteSwiftRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FeedsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FetchFollowersRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FetchFollowingRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FetchLikesRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FetchThreadDataRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FetchThreadRepliesRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/FollowRequestsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetBookmarksRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetChatsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetMessagesRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetNotificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetPrivacySettingsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetProfilePostsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetProfileRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/GetSwiftsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/IgnoreFollowRequestRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/LoginRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/LogoutRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/PublishPostRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/PublishSwiftRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/PushNotificationsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/RefreshAccessTokenRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/RegisterSwiftViewRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ReportPostRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ReportUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/RepostRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ResetPasswordRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SearchHashtagRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SearchMessagesRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SearchPeopleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SearchPostRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SendMessageRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SetPrivacySettingsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SignUpRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/SocialLoginRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ToggleBlockRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ToggleFollowRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/ToggleLikeRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/UpdateProfileRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/UploadPostMediaRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/UploadSwiftMediaRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/VerifyUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/request/VoteRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/response/Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/ApiException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/IncorrectCredentialsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/NoDataFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/ServerErrorException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/UnauthorizedAccessException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/UserAlreadyExistException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/exception/UserNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/retrofit/ColibriSM.java" afterDir="false" />
+    <list default="true" id="fcafd76f-e54b-49dc-adcd-d8f67c3f8404" name="Changes" comment="initial">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/ApiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/ApiClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ActiveUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Auth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ChatUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Follower.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Following.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Liker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/MyProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/OtherProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Owner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/PostLite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Reply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/ReplyTo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Request.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/SwiftUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Thread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/Thread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/entity/UserLite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/response/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/dto/response/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/retrofit/ColibriSM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/java3000/colibrism/api/retrofit/ColibriSM.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,6 +62,26 @@
       <recent name="$PROJECT_DIR$/src/main/java/ru/java3000" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="ApiClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.java3000.colibrism.api.ApiClient" />
+      <module name="ColibriSMApi.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.java3000.colibrism.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ApiClient" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -171,8 +90,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666637640607</updated>
-      <workItem from="1666637654293" duration="4150000" />
+      <workItem from="1666637654293" duration="11192000" />
     </task>
+    <task id="LOCAL-00001" summary="initial">
+      <created>1666642982298</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1666642982298</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,5 +115,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial" />
   </component>
 </project>

@@ -35,7 +35,7 @@ public class Reply {
     boolean has_liked;
     boolean has_saved;
     boolean has_reposted;
-    ReplyTo reply_to;
-    Owner owner;
+    User reply_to;
+    User owner;
     int offset_id;
 }

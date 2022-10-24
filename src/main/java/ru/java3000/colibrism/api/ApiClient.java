@@ -23,6 +23,10 @@ public class ApiClient {
     private static final Logger logger = Logger.getLogger("ApiClient");
     private HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 
+
+    public static void main(String[] args) {
+    }
+
     public ApiClient(String server) {
         this(server, HttpLoggingInterceptor.Level.NONE);
     }
@@ -212,14 +216,14 @@ public class ApiClient {
         return callService(repost);
     }
 
-    public Response<List<Liker>> fetchLikes(String sessionId, int postId, int offset, int pageSize) throws ApiException {
+    public Response<List<User>> fetchLikes(String sessionId, int postId, int offset, int pageSize) throws ApiException {
         FetchLikesRequest request = new FetchLikesRequest();
         request.setSession_id(sessionId);
         request.setPost_id(postId);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<Liker>>> fetchLikesResponseCall = service.fetchLikes(request);
+        Call<Response<List<User>>> fetchLikesResponseCall = service.fetchLikes(request);
 
         return callService(fetchLikesResponseCall);
     }
@@ -246,31 +250,31 @@ public class ApiClient {
         return callService(searchHashtagResponseCall);
     }
 
-    public Response<List<UserLite>> searchPeople(String sessionId, String query, int offset, int pageSize) throws ApiException {
+    public Response<List<User>> searchPeople(String sessionId, String query, int offset, int pageSize) throws ApiException {
         SearchPeopleRequest request = new SearchPeopleRequest();
         request.setSession_id(sessionId);
         request.setQuery(query);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<UserLite>>> searchPeopleResponseCall = service.searchPeople(request);
+        Call<Response<List<User>>> searchPeopleResponseCall = service.searchPeople(request);
 
         return callService(searchPeopleResponseCall);
     }
 
-    public Response<List<PostLite>> searchPost(String sessionId, String query, int offset, int pageSize) throws ApiException {
+    public Response<List<Post>> searchPost(String sessionId, String query, int offset, int pageSize) throws ApiException {
         SearchPostRequest request = new SearchPostRequest();
         request.setSession_id(sessionId);
         request.setQuery(query);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<PostLite>>> searchPeopleResponseCall = service.searchPost(request);
+        Call<Response<List<Post>>> searchPeopleResponseCall = service.searchPost(request);
 
         return callService(searchPeopleResponseCall);
     }
 
-    public Response<MyProfile> updateProfile(String sessionId, String about, String userName,
+    public Response<User> updateProfile(String sessionId, String about, String userName,
                                                          String gender, String email, String firstName, String lastName, int countryId, URL website) throws ApiException {
         UpdateProfileRequest request = new UpdateProfileRequest();
         request.setSession_id(sessionId);
@@ -283,7 +287,7 @@ public class ApiClient {
         request.setCountry_id(countryId);
         request.setWebsite(website);
 
-        Call<Response<MyProfile>> updateProfileResponseCall = service.updateProfile(request);
+        Call<Response<User>> updateProfileResponseCall = service.updateProfile(request);
 
         return callService(updateProfileResponseCall);
     }
@@ -298,26 +302,26 @@ public class ApiClient {
         return callService(toggleFollowResponseCall);
     }
 
-    public Response<List<Following>> fetchFollowing(String sessionId, int userId, int offset, int pageSize) throws ApiException {
+    public Response<List<User>> fetchFollowing(String sessionId, int userId, int offset, int pageSize) throws ApiException {
         FetchFollowingRequest request = new FetchFollowingRequest();
         request.setSession_id(sessionId);
         request.setUser_id(userId);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<Following>>> fetchFollowingResponseCall = service.fetchFollowing(request);
+        Call<Response<List<User>>> fetchFollowingResponseCall = service.fetchFollowing(request);
 
         return callService(fetchFollowingResponseCall);
     }
 
-    public Response<List<Follower>> fetchFollowers(String sessionId, int userId, int offset, int pageSize) throws ApiException {
+    public Response<List<User>> fetchFollowers(String sessionId, int userId, int offset, int pageSize) throws ApiException {
         FetchFollowersRequest request = new FetchFollowersRequest();
         request.setSession_id(sessionId);
         request.setUser_id(userId);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<Follower>>> fetchFollowersResponseCall = service.fetchFollowers(request);
+        Call<Response<List<User>>> fetchFollowersResponseCall = service.fetchFollowers(request);
 
         return callService(fetchFollowersResponseCall);
     }
@@ -364,13 +368,13 @@ public class ApiClient {
         return callService(changeLanguageResponseCall);
     }
 
-    public Response<OtherProfile> getProfile(String sessionId, String userName, int userId) throws ApiException {
+    public Response<User> getProfile(String sessionId, String userName, int userId) throws ApiException {
         GetProfileRequest request = new GetProfileRequest();
         request.setSession_id(sessionId);
         request.setUsername(userName);
         request.setUser_id(userId);
 
-        Call<Response<OtherProfile>> profile = service.getProfile(request);
+        Call<Response<User>> profile = service.getProfile(request);
 
         return callService(profile);
     }
@@ -488,11 +492,11 @@ public class ApiClient {
         return callService(deleteSwiftResponseCall);
     }
 
-    public Response<List<SwiftUser>> getSwifts(String sessionId) throws ApiException {
+    public Response<List<User>> getSwifts(String sessionId) throws ApiException {
         GetSwiftsRequest request = new GetSwiftsRequest();
         request.setSession_id(sessionId);
 
-        Call<Response<List<SwiftUser>>> swifts = service.getSwifts(request);
+        Call<Response<List<User>>> swifts = service.getSwifts(request);
 
         return callService(swifts);
     }
@@ -604,13 +608,13 @@ public class ApiClient {
         return callService(setPrivacySettingsResponseCall);
     }
 
-    public Response<List<Request>> followRequests(String sessionId, int offset, int pageSize) throws ApiException {
+    public Response<List<User>> followRequests(String sessionId, int offset, int pageSize) throws ApiException {
         FollowRequestsRequest request = new FollowRequestsRequest();
         request.setSession_id(sessionId);
         request.setOffset(offset);
         request.setPage_size(pageSize);
 
-        Call<Response<List<Request>>> followRequestsResponseCall = service.followRequests(request);
+        Call<Response<List<User>>> followRequestsResponseCall = service.followRequests(request);
 
         return callService(followRequestsResponseCall);
     }
@@ -648,11 +652,11 @@ public class ApiClient {
         return callService(sendMessageResponseCall);
     }
 
-    public Response<List<ChatUser>> getChats(String sessionId) throws ApiException {
+    public Response<List<User>> getChats(String sessionId) throws ApiException {
         GetChatsRequest request = new GetChatsRequest();
         request.setSession_id(sessionId);
 
-        Call<Response<List<ChatUser>>> chats = service.getChats(request);
+        Call<Response<List<User>>> chats = service.getChats(request);
 
         return callService(chats);
     }

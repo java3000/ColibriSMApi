@@ -63,7 +63,7 @@ public interface ColibriSM {
     Call<Response<Reposts>> repost(@Body RepostRequest request);
 
     @POST(API_PREFIX + "fetch_likes")
-    Call<Response<List<Liker>>> fetchLikes(@Body FetchLikesRequest request);
+    Call<Response<List<User>>> fetchLikes(@Body FetchLikesRequest request);
 
     @POST(API_PREFIX + "delete_post")
     Call<Response<List<Object>>> deletePost(@Body DeletePostRequest request);
@@ -72,22 +72,22 @@ public interface ColibriSM {
     Call<Response<List<HashTag>>> searchHashtag(@Body SearchHashtagRequest request);
 
     @POST(API_PREFIX + "search_people")
-    Call<Response<List<UserLite>>> searchPeople(@Body SearchPeopleRequest request);
+    Call<Response<List<User>>> searchPeople(@Body SearchPeopleRequest request);
 
     @POST(API_PREFIX + "search_posts")
-    Call<Response<List<PostLite>>> searchPost(@Body SearchPostRequest request);
+    Call<Response<List<Post>>> searchPost(@Body SearchPostRequest request);
 
     @POST(API_PREFIX + "gen_settings")
-    Call<Response<MyProfile>> updateProfile(@Body UpdateProfileRequest request);
+    Call<Response<User>> updateProfile(@Body UpdateProfileRequest request);
 
     @POST(API_PREFIX + "follow")
     Call<Response<Follow>> toggleFollow(@Body ToggleFollowRequest request);
 
     @POST(API_PREFIX + "fetch_following")
-    Call<Response<List<Following>>> fetchFollowing(@Body FetchFollowingRequest request);
+    Call<Response<List<User>>> fetchFollowing(@Body FetchFollowingRequest request);
 
     @POST(API_PREFIX + "fetch_followers")
-    Call<Response<List<Follower>>> fetchFollowers(@Body FetchFollowersRequest request);
+    Call<Response<List<User>>> fetchFollowers(@Body FetchFollowersRequest request);
 
     @POST(API_PREFIX + "get_notifications")
     Call<Response<List<Notification>>> getNotifications(@Body GetNotificationRequest request);
@@ -103,7 +103,7 @@ public interface ColibriSM {
     Call<Response<List<Object>>> changeLanguage(@Body ChangeLanguageRequest request);
 
     @POST(API_PREFIX + "profile")
-    Call<Response<OtherProfile>> getProfile(@Body GetProfileRequest request);
+    Call<Response<User>> getProfile(@Body GetProfileRequest request);
 
     @POST(API_PREFIX + "profile_posts")
     Call<Response<Posts>> getProfilePosts(@Body GetProfilePostsRequest request);
@@ -136,7 +136,7 @@ public interface ColibriSM {
     Call<Response<List<Object>>> deleteSwift(@Body DeleteSwiftRequest request);
 
     @POST(API_PREFIX + "get_swifts")
-    Call<Response<List<SwiftUser>>> getSwifts(@Body GetSwiftsRequest request);
+    Call<Response<List<User>>> getSwifts(@Body GetSwiftsRequest request);
 
     @POST(API_PREFIX + "reg_swift_view")
     Call<Response<List<Object>>> registerSwiftView(@Body RegisterSwiftViewRequest request);
@@ -169,7 +169,7 @@ public interface ColibriSM {
     Call<Response<List<Object>>> setPrivacySettings(@Body SetPrivacySettingsRequest request);
 
     @POST(API_PREFIX + "follow_requests")
-    Call<Response<List<Request>>> followRequests(@Body FollowRequestsRequest request);
+    Call<Response<List<User>>> followRequests(@Body FollowRequestsRequest request);
 
     @POST(API_PREFIX + "accept_follow")
     Call<Response<ApprovedRequests>> approveFollowRequest(@Body ApproveFollowRequestRequest request);
@@ -181,7 +181,7 @@ public interface ColibriSM {
     Call<Response<Message>> sendMessage(@Body SendMessageRequest request);
 
     @POST(API_PREFIX + "get_chats")
-    Call<Response<List<ChatUser>>> getChats(@Body GetChatsRequest request);
+    Call<Response<List<User>>> getChats(@Body GetChatsRequest request);
 
     @POST(API_PREFIX + "get_messages")
     Call<Response<List<Message>>> getMessages(@Body GetMessagesRequest request);

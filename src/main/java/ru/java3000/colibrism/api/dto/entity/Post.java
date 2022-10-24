@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -24,9 +25,9 @@ public class Post {
     String og_data;
     String time;
     int offset_id; //?
-    boolean is_repost;
-    boolean is_reposter;
-    String attrs; //?
+    Optional<Boolean> is_repost;
+    Optional<Boolean> is_reposter;
+    Optional<String> attrs;
     boolean advertising;
     long time_raw;
     String og_text;
@@ -38,6 +39,6 @@ public class Post {
     boolean has_liked;
     boolean has_saved;
     boolean has_reposted;
-    List<ReplyTo> reply_to;
-    Owner owner;
+    List<User> reply_to;
+    User owner;
 }
