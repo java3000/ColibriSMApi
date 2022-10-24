@@ -24,9 +24,6 @@ public class ApiClient {
     private HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 
 
-    public static void main(String[] args) {
-    }
-
     public ApiClient(String server) {
         this(server, HttpLoggingInterceptor.Level.NONE);
     }
