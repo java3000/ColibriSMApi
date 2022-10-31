@@ -1,83 +1,69 @@
 package ru.java3000.colibrism.api.dto.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    Optional<Integer> id;
-    Optional<String> first_name;
-    Optional<String> last_name;
-    Optional<String> user_name;
-    Optional<String> email;
-    Optional<Boolean> is_verified;
-    Optional<String> website;
-    Optional<String> about_you;
-    Optional<String> gender;
-    Optional<String> country;
-    Optional<Integer> post_count;
-    Optional<Integer> last_post; //?
-    Optional<Integer> last_ad; //?
-    Optional<String> language;
-    Optional<Integer> following_count;
-    Optional<Integer> follower_count;
-    Optional<Float> wallet; //?
-    Optional<String> ip_address;
-    Optional<String> last_active; //?
-    Optional<String> member_since;
-    Optional<String> profile_privacy; //?
 
-    ////Auth
-    Optional<String> auth_token;
-    Optional<String> refresh_token;
-    Optional<Long> auth_token_expiry;
-
-    ////
-    Optional<String> about;
-    Optional<Integer> followers;
-    Optional<Integer> posts;
-    Optional<URL> avatar; //todo replace all string to url in other places
-    Optional<String> username;
-    Optional<String> fname;
-    Optional<String> lname;
-    Optional<String> verified; // "0",
-    Optional<String> name;
-    Optional<URL> url;
-    Optional<Boolean> is_user;
-    Optional<Boolean> is_following;
-
-    ////
-    Optional<List<Swift>> swift;
-
-    ////
-    Optional<Integer> user_id;
-    Optional<Integer> chat_id;
-    Optional<String> time;
-    Optional<String> last_message;
-    Optional<String> new_messages;
-    Optional<URL> chat_url;
-
-    ////
-    Optional<Integer> offset_id;
-    Optional<String> follow_privacy;
-    Optional<Boolean> follow_requested;
-
-    ////
-    Optional<Boolean> pending_req;
-
-    ////
-    Optional<URL> cover;
-    Optional<Boolean> is_blocked_visitor;
-    Optional<Boolean> can_view_profile;
-
-    ////
-    Optional<Boolean> is_owner;
-    Optional<URL> thread_url;
+    @SerializedName(value="id", alternate={"user_id"})
+    int id;
+    @SerializedName(value="first_name", alternate={"fname"})
+    String firstName;
+    @SerializedName(value="last_name", alternate={"lname"})
+    String lastName;
+    @SerializedName(value="user_name", alternate={"username", "name"})
+    String userName;
+    String email;
+    @SerializedName(value="is_verified", alternate={"verified"})
+    String isVerified;
+    String website;
+    @SerializedName(value="about_you", alternate={"about"})
+    String about;
+    String gender;
+    String country;
+    @SerializedName(value="post_count", alternate={"posts"})
+    int postCount;
+    int lastPost; //?
+    int lastAd; //?
+    String language;
+    @SerializedName(value="following_count", alternate={"followings"})
+    int followingCount;
+    @SerializedName(value="follower_count", alternate={"followers"})
+    int followerCount;
+    float wallet; //?
+    @SerializedName(value="ip_address", alternate={"ipaddress"})
+    String ipaddress;
+    String lastActive; //?
+    String memberSince;
+    String profilePrivacy; //?
+    String authToken;
+    String refreshToken;
+    long authTokenExpiry;
+    URL avatar; //todo replace all string to url in other places
+    URL url;
+    boolean isUser;
+    boolean isFollowing;
+    List<Swift> swift;
+    int chatId;
+    String time;
+    String lastMessage;
+    String newMessages;
+    URL chatUrl;
+    int offsetId;
+    String followPrivacy;
+    boolean followRequested;
+    boolean pendingReq;
+    URL cover;
+    boolean isBlockedVisitor;
+    boolean canViewProfile;
+    boolean isOwner;
+    URL threadUrl;
 }
