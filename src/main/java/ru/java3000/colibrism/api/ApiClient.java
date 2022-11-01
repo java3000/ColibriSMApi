@@ -149,11 +149,11 @@ public class ApiClient {
         return callService(changePasswordResponseCall);
     }
 
-    public Response refreshAccessToken(String token) throws ApiException {
+    public Response<Object> refreshAccessToken(String token) throws ApiException {
         RefreshAccessTokenRequest request = new RefreshAccessTokenRequest();
         request.setRefresh_token(token);
 
-        Call<Response> refreshAccessTokenResponseCall = service.refreshAccessToken(request);
+        Call<Response<Object>> refreshAccessTokenResponseCall = service.refreshAccessToken(request);
 
         return callService(refreshAccessTokenResponseCall);
     }
