@@ -43,4 +43,4 @@ bin/
 /.idea/
 /.idea/**
 /gradle/
-/gradle/
+/gradle/wrapper/

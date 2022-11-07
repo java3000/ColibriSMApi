@@ -216,7 +216,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_post_media")
-    Call<Response<Void> deletePostMedia(@Field("session_id") String sessionId,
+    Call<Response<Void>> deletePostMedia(@Field("session_id") String sessionId,
                                                  @Field("type") String type,
                                                  @Field("media_id") int mediaId);
 
