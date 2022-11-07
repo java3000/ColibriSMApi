@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.net.URL;
 
+//todo refactor using gson serialization mapping fields
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +17,14 @@ public class Media {
     URL src;
     String json_data;
     long time;
-    MediaX x;
+    MediaThumb thumb;
+
+    //video
+    URL source;
+    URL poster;
+
+    //image
+    int media_id;
+    URL url;
+    String type; //Image/Video"
 }

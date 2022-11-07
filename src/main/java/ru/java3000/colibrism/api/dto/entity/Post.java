@@ -40,5 +40,6 @@ public class Post {
     boolean has_saved;
     boolean has_reposted;
     List<User> reply_to;
+    List<Object> replys; //[], ????
     User owner;
 }

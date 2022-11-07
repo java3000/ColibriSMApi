@@ -44,9 +44,7 @@ public class User {
     String lastActive; //?
     String memberSince;
     String profilePrivacy; //?
-    String authToken;
-    String refreshToken;
-    long authTokenExpiry;
+    Auth auth;
     URL avatar; //todo replace all string to url in other places
     URL url;
     boolean isUser;
