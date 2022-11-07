@@ -37,7 +37,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "resetpassword")
-    Call<Response<List<Void>>> resetPassword(@Field("email") String email);
+    Call<Response<Void>> resetPassword(@Field("email") String email);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "feeds")
@@ -47,25 +47,25 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "profile_report")
-    Call<Response<List<Object>>> reportProfile(@Field("session_id") String sessionId,
+    Call<Response<Void>> reportProfile(@Field("session_id") String sessionId,
                                                @Field("user_id") int userId,
                                                @Field("reason") int reason,
                                                @Field("comment") String comment);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "block_user")
-    Call<Response<List<Object>>> toggleUserBlock(@Field("session_id") String sessionId,
+    Call<Response<Void>> toggleUserBlock(@Field("session_id") String sessionId,
                                                  @Field("user_id") int userId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "save_pnotif_token")
-    Call<Response<List<Object>>> savePushNotificationToken(@Field("session_id") String sessionId,
+    Call<Response<Void>> savePushNotificationToken(@Field("session_id") String sessionId,
                                                            @Field("token") String token,
                                                            @Field("type") String type);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "change_password")
-    Call<Response<List<Object>>> changePassword(@Field("session_id") String sessionId,
+    Call<Response<Void>> changePassword(@Field("session_id") String sessionId,
                                                 @Field("old_password") String oldPassword,
                                                 @Field("new_password") String newPassword);
 
@@ -75,7 +75,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "logout")
-    Call<Response<List<Void>>> logout(@Field("session_id") String sessionId);
+    Call<Response<Void>> logout(@Field("session_id") String sessionId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "verify_user")
@@ -97,7 +97,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "publication_report")
-    Call<Response<List<Object>>> reportPost(@Field("session_id") String sessionId,
+    Call<Response<Void>> reportPost(@Field("session_id") String sessionId,
                                             @Field("post_id") int postId,
                                             @Field("reason") int reason,
                                             @Field("comment") String comment);
@@ -116,7 +116,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_post")
-    Call<Response<List<Object>>> deletePost(@Field("session_id") String sessionId,
+    Call<Response<Void>> deletePost(@Field("session_id") String sessionId,
                                             @Field("post_id") int postId);
 
     @FormUrlEncoded
@@ -232,7 +232,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "change_post_privacy")
-    Call<Response<List<Object>>> changePostPrivacy(@Field("privacy") String sessionId,
+    Call<Response<Void>> changePostPrivacy(@Field("privacy") String sessionId,
                                                    @Field("privacy") int postId,
                                                    @Field("privacy") String privacy);
 
@@ -245,16 +245,16 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_swift_media")
-    Call<Response<List<Object>>> deleteSwiftMedia(@Field("session_id") String sessionId);
+    Call<Response<Void>> deleteSwiftMedia(@Field("session_id") String sessionId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "publish_swift")
-    Call<Response<List<Object>>> publishSwift(@Field("session_id") String sessionId,
+    Call<Response<Void>> publishSwift(@Field("session_id") String sessionId,
                                               @Field("swift_text") String swiftText);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_swift")
-    Call<Response<List<Object>>> deleteSwift(@Field("session_id") String sessionId,
+    Call<Response<Void>> deleteSwift(@Field("session_id") String sessionId,
                                              @Field("swid") String swiftId);
 
     @FormUrlEncoded
@@ -263,7 +263,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "reg_swift_view")
-    Call<Response<List<Object>>> registerSwiftView(@Field("session_id") String sessionId,
+    Call<Response<Void>> registerSwiftView(@Field("session_id") String sessionId,
                                                    @Field("user_id") int userId,
                                                    @Field("username") String swiftId);
 
@@ -274,7 +274,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "thread_replys")
-    Call<Response<List<Reply>>> fetchThreadReplies(@Field("session_id") String sessionId,
+    Call<Response<List<Post>>> fetchThreadReplies(@Field("session_id") String sessionId,
                                                    @Field("thread_id") int threadId,
                                                    @Field("page_size") int pageSize,
                                                    @Field("offset") int offset);
@@ -311,7 +311,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "set_priv_settings")
-    Call<Response<List<Object>>> setPrivacySettings(@Field("session_id") String sessionId,
+    Call<Response<Void>> setPrivacySettings(@Field("session_id") String sessionId,
                                                     @Field("profile_visibility") String profileVisibility,
                                                     @Field("contact_privacy") String contactPrivacy,
                                                     @Field("follow_privacy") String followPrivacy,
@@ -364,12 +364,12 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_message")
-    Call<Response<List<Object>>> deleteMessage(@Field("session_id") String sessionId,
+    Call<Response<Void>> deleteMessage(@Field("session_id") String sessionId,
                                                @Field("message_id") int messageId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "clear_chat")
-    Call<Response<List<Object>>> clearChat(@Field("session_id") String sessionId,
+    Call<Response<Void>> clearChat(@Field("session_id") String sessionId,
                                            @Field("user_id") int userId,
                                            @Field("delete_chat") int deleteChat);
 

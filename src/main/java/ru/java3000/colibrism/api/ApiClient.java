@@ -20,7 +20,6 @@ public class ApiClient {
     private final ColibriSM service;
 
     private static final Logger logger = Logger.getLogger("ApiClient");
-    private final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 
 
     public ApiClient(String server) {
@@ -29,6 +28,7 @@ public class ApiClient {
 
     public ApiClient(String server, HttpLoggingInterceptor.Level logLevel) {
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(logLevel);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
@@ -290,7 +290,7 @@ public class ApiClient {
      * API for access publication repost endpoint
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param postId Post int ID	E.g. 4567
-     * @return {@link Repostrs} object - boolean result of operation
+     * @return {@link Reposts} object - boolean result of operation
      * @throws ApiException if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
@@ -675,7 +675,7 @@ public class ApiClient {
      * API endpoint for fetching user swifts list
      * This endpoint will allow you to get all active swifts of the logged in user
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
-     * @return
+     * @return list of {@link User} objects
      * @throws ApiException if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
