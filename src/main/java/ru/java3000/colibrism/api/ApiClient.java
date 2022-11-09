@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ApiClient {
+public final class ApiClient {
     private final ColibriSM service;
 
     private static final Logger logger = Logger.getLogger("ApiClient");
@@ -41,7 +41,6 @@ public class ApiClient {
         service = retrofit.create(ColibriSM.class);
     }
 
-
     /**
      * API to access user login endpoint
      *
@@ -51,13 +50,26 @@ public class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<User> login(String email, String password) throws ApiException {
+    public User login(String email, String password) throws ApiException {
         if ((email.isBlank() || email.length() > 55) ||
                 (password.isBlank() | password.length() > 60 | password.length() < 6))
             throw new IllegalArgumentException();
 
-        Call<Response<User>> request = service.login(email, password, "android");
-        return callService(request);
+        User user = null;
+
+        Call<Response<UserWrapper>> request = service.login(email, password, "android");
+
+        var response = callService(request);
+        if (response.getCode() == 200) {
+            if (response.getData() != null) {
+                user = response.getData().getUser();
+                if (response.getAuth() != null) {
+                    var auth = response.getAuth();
+                    user.setAuth(auth);
+                }
+            }
+        }
+        return user;
     }
 
     /**
@@ -68,12 +80,12 @@ public class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> logout(String sessionId) throws ApiException {
+    public void logout(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> logoutResponse = service.logout(sessionId);
-        return callService(logoutResponse);
+        callService(logoutResponse);
     }
 
     /**
@@ -85,12 +97,25 @@ public class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<User> socialLogin(String token, String type) throws ApiException {
+    public User socialLogin(String token, String type) throws ApiException {
         if (token.isBlank() || type.isBlank())
             throw new IllegalArgumentException();
 
-        Call<Response<User>> request = service.socialLogin(token, type, "android");
-        return callService(request);
+        User user = null;
+
+        Call<Response<UserWrapper>> request = service.socialLogin(token, type, "android");
+
+        var response = callService(request);
+        if (response.getCode() == 200) {
+            if (response.getData() != null) {
+                user = response.getData().getUser();
+                if (response.getAuth() != null) {
+                    var auth = response.getAuth();
+                    user.setAuth(auth);
+                }
+            }
+        }
+        return user;
     }
 
     /**
@@ -105,14 +130,23 @@ public class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Auth>> signUp(String email, String username, String password, String firstName, String lastName) throws ApiException {
+    public Auth signUp(String email, String username, String password, String firstName, String lastName) throws ApiException {
         if ((email.isBlank() || email.length() > 55) ||
                 username.isBlank() ||
                 (password.isBlank() | password.length() > 60 | password.length() < 6))
             throw new IllegalArgumentException();
 
-        Call<Response<List<Auth>>> signup = service.signup(firstName, lastName, email, username, password);
-        return callService(signup);
+        Auth auth = null;
+
+        Call<Response<Void>> signup = service.signup(firstName, lastName, email, username, password);
+
+        var response = callService(signup);
+        if (response.getCode() == 200) {
+            if (response.getAuth() != null) {
+                auth = response.getAuth();
+            }
+        }
+        return auth;
     }
 
     /**

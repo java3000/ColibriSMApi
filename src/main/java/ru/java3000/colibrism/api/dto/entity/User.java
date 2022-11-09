@@ -31,7 +31,9 @@ public class User {
     String country;
     @SerializedName(value="post_count", alternate={"posts"})
     int postCount;
+    @SerializedName(value="last_post")
     int lastPost; //?
+    @SerializedName(value="last_ad")
     int lastAd; //?
     String language;
     @SerializedName(value="following_count", alternate={"followings"})
@@ -41,27 +43,44 @@ public class User {
     float wallet; //?
     @SerializedName(value="ip_address", alternate={"ipaddress"})
     String ipaddress;
+    @SerializedName(value="last_active")
     String lastActive; //?
+    @SerializedName(value="member_since")
     String memberSince;
+    @SerializedName(value="profile_privacy")
     String profilePrivacy; //?
     Auth auth;
-    URL avatar; //todo replace all string to url in other places
+    URL avatar;
     URL url;
+    @SerializedName(value="is_user")
     boolean isUser;
+    @SerializedName(value="is_following")
     boolean isFollowing;
     List<Swift> swift;
+    @SerializedName(value="chat_id")
     int chatId;
     String time;
+    @SerializedName(value="last_message")
     String lastMessage;
+    @SerializedName(value="new_messages")
     String newMessages;
+    @SerializedName(value="chat_url")
     URL chatUrl;
+    @SerializedName(value="offset_id")
     int offsetId;
+    @SerializedName(value="follow_privacy")
     String followPrivacy;
+    @SerializedName(value="follow_requested")
     boolean followRequested;
+    @SerializedName(value="pending_req")
     boolean pendingReq;
     URL cover;
+    @SerializedName(value="is_blocked_visitor")
     boolean isBlockedVisitor;
+    @SerializedName(value="can_view_profile")
     boolean canViewProfile;
+    @SerializedName(value="is_owner")
     boolean isOwner;
+    @SerializedName(value="thread_url")
     URL threadUrl;
 }

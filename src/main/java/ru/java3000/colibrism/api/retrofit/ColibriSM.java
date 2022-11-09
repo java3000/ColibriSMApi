@@ -17,19 +17,19 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "login")
-    Call<Response<User>> login(@Field("email") String email,
+    Call<Response<UserWrapper>> login(@Field("email") String email,
                                @Field("password") String password,
                                @Field("device_type") String deviceType);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "oauth")
-    Call<Response<User>> socialLogin(@Field("access_token") String accessToken,
+    Call<Response<UserWrapper>> socialLogin(@Field("access_token") String accessToken,
                                      @Field("type") String type,
                                      @Field("device_type") String deviceType);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "signup")
-    Call<Response<List<Auth>>> signup(@Field("first_name") String firstName,
+    Call<Response<Void>> signup(@Field("first_name") String firstName,
                                       @Field("last_name") String lastName,
                                       @Field("email") String email,
                                       @Field("username") String userName,

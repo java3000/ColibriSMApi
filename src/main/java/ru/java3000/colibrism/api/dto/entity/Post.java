@@ -1,5 +1,6 @@
 package ru.java3000.colibrism.api.dto.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,33 +14,51 @@ import java.util.Optional;
 @NoArgsConstructor
 public class Post {
     long id;
-    long user_id;
+    @SerializedName("user_id")
+    long userId;
     String text;
     String type;
-    int replys_count;
-    int reposts_count;
-    int likes_count;
+    @SerializedName("replys_count")
+    int replysCount;
+    @SerializedName("reposts_count")
+    int repostsCount;
+    @SerializedName("likes_count")
+    int likesCount;
     String status; //?
-    long thread_id;
+    @SerializedName("thread_id")
+    long threadId;
     String target;
-    String og_data;
+    @SerializedName("og_data")
+    String ogData;
     String time;
-    int offset_id; //?
-    Optional<Boolean> is_repost;
-    Optional<Boolean> is_reposter;
-    Optional<String> attrs;
+    @SerializedName("offset_id")
+    int offsetId; //?
+    @SerializedName("is_repost")
+    boolean isRepost;
+    @SerializedName("is_reposter")
+    boolean isReposter;
+    String attrs;
     boolean advertising;
-    long time_raw;
-    String og_text;
-    URL og_image;
+    @SerializedName("time_raw")
+    long timeRaw;
+    @SerializedName("og_text")
+    String ogText;
+    @SerializedName("og_image")
+    URL ogImage;
     URL url;
-    boolean can_delete;
+    @SerializedName("can_delete")
+    boolean canSelete;
     List<Media> media;
-    boolean is_owner;
-    boolean has_liked;
-    boolean has_saved;
-    boolean has_reposted;
-    List<User> reply_to;
+    @SerializedName("is_owner")
+    boolean isOwner;
+    @SerializedName("has_liked")
+    boolean hasLiked;
+    @SerializedName("has_saved")
+    boolean hasSaved;
+    @SerializedName("has_reposted")
+    boolean hasReposted;
+    @SerializedName("reply_to")
+    List<User> replyTo;
     List<Object> replys; //[], ????
     User owner;
 }

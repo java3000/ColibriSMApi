@@ -1,5 +1,6 @@
 package ru.java3000.colibrism.api.dto.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,23 @@ import java.net.URL;
 @NoArgsConstructor
 public class Message {
     int id;
-    int sent_by;
-    int sent_to;
+    @SerializedName("sent_by")
+    int sentBy;
+    @SerializedName("sent_to")
+    int sentTo;
     boolean owner;
     String message; //"Image",
-    URL media_file;
-    String media_type;
+    @SerializedName("media_file")
+    URL mediaFile;
+    @SerializedName("media_type")
+    String mediaType;
     String seen; //"0",
-    String deleted_fs1;
-    String deleted_fs2;
+    @SerializedName("deleted_fs1")
+    String deletedFs1;
+    @SerializedName("deleted_fs2")
+    String deletedFs2;
     String time;
     String side;
-    String media_name; //media_raw?????
+    @SerializedName("media_name")
+    String mediaName; //media_raw?????
 }

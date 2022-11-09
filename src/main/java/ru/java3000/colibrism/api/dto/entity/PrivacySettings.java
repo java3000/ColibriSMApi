@@ -1,5 +1,6 @@
 package ru.java3000.colibrism.api.dto.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PrivacySettings {
-    String profile_visibility;
-    String contact_privacy;
-    String follow_privacy;
-    boolean search_visibility;
+    @SerializedName("profile_visibility")
+    String profileVisibility;
+    @SerializedName("contact_privacy")
+    String contactPrivacy;
+    @SerializedName("follow_privacy")
+    String followPrivacy;
+    @SerializedName("search_visibility")
+    boolean searchVisibility;
 }

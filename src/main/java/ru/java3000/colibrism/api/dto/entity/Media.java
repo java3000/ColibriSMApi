@@ -1,21 +1,23 @@
 package ru.java3000.colibrism.api.dto.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.URL;
 
-//todo refactor using gson serialization mapping fields
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Media {
     int id;
-    int pub_id;
+    @SerializedName("pub_id")
+    int pubId;
     String type;
     URL src;
-    String json_data;
+    @SerializedName("json_data")
+    String jsonData;
     long time;
     MediaThumb thumb;
 
@@ -24,7 +26,7 @@ public class Media {
     URL poster;
 
     //image
-    int media_id;
+    @SerializedName("media_id")
+    int mediaId;
     URL url;
-    String type; //Image/Video"
 }

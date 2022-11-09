@@ -1,33 +1,47 @@
 package ru.java3000.colibrism.api;
 
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import ru.java3000.colibrism.api.dto.entity.Auth;
+import ru.java3000.colibrism.api.dto.entity.User;
+import ru.java3000.colibrism.api.dto.entity.UserWrapper;
+import ru.java3000.colibrism.api.dto.response.Response;
+import ru.java3000.colibrism.api.exception.ApiException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApiClientTest {
 
+    ApiClient client = new ApiClient("https://rutvit.com/", HttpLoggingInterceptor.Level.BODY);
+    String authToken = "";
+    
     @Test
+    @Order(1)
     void login() {
-    }
+        try {
+            var user = client.login("mailfortwitter@internet.ru","P@ssw0rd");
 
-    @Test
-    void logout() {
-    }
+            assertNotNull(user);
+            assertEquals("mailfortwitter@internet.ru", user.getEmail());
 
-    @Test
-    void socialLogin() {
-    }
+            authToken = user.getAuth().getAuthToken();
 
-    @Test
-    void signUp() {
-    }
-
-    @Test
-    void resetPassword() {
+        } catch (ApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void feeds() {
+        try {
+            var response = client.feeds(authToken, 0, 20);
+
+            assertNotNull(response);
+        } catch (ApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -240,5 +254,9 @@ class ApiClientTest {
 
     @Test
     void clearChat() {
+    }
+
+    @Test
+    void logout() {
     }
 }
