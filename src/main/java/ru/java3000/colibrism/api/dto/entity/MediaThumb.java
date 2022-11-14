@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 public class MediaThumb {
     @SerializedName("image_thumb")
     String imageThumb;
+    @SerializedName("poster_thumb")
+    String posterThumb;
 }

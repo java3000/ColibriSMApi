@@ -15,10 +15,11 @@ public class Media {
     @SerializedName("pub_id")
     int pubId;
     String type;
-    URL src;
+    String src;
     @SerializedName("json_data")
     String jsonData;
     long time;
+    @SerializedName("x")
     MediaThumb thumb;
 
     //video

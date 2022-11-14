@@ -1,9 +1,7 @@
 package ru.java3000.colibrism.api.retrofit;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 import ru.java3000.colibrism.api.dto.entity.Thread;
 import ru.java3000.colibrism.api.dto.entity.*;
 import ru.java3000.colibrism.api.dto.response.Response;
@@ -18,56 +16,55 @@ public interface ColibriSM {
     @FormUrlEncoded
     @POST(API_PREFIX + "login")
     Call<Response<UserWrapper>> login(@Field("email") String email,
-                               @Field("password") String password,
-                               @Field("device_type") String deviceType);
+                                      @Field("password") String password,
+                                      @Field("device_type") String deviceType);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "oauth")
     Call<Response<UserWrapper>> socialLogin(@Field("access_token") String accessToken,
-                                     @Field("type") String type,
-                                     @Field("device_type") String deviceType);
+                                            @Field("type") String type,
+                                            @Field("device_type") String deviceType);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "signup")
     Call<Response<Void>> signup(@Field("first_name") String firstName,
-                                      @Field("last_name") String lastName,
-                                      @Field("email") String email,
-                                      @Field("username") String userName,
-                                      @Field("password") String password);
+                                @Field("last_name") String lastName,
+                                @Field("email") String email,
+                                @Field("username") String userName,
+                                @Field("password") String password);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "resetpassword")
     Call<Response<Void>> resetPassword(@Field("email") String email);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "feeds")
-    Call<Response<Feeds>> feeds(@Field("offset") long offset,
-                                @Field("session_id") String sessionId,
-                                @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "feeds")
+    Call<Response<Feeds>> feeds(@Query("offset") long offset,
+                                @Query("session_id") String sessionId,
+                                @Query("page_size") int pageSize);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "profile_report")
     Call<Response<Void>> reportProfile(@Field("session_id") String sessionId,
-                                               @Field("user_id") int userId,
-                                               @Field("reason") int reason,
-                                               @Field("comment") String comment);
+                                       @Field("user_id") int userId,
+                                       @Field("reason") int reason,
+                                       @Field("comment") String comment);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "block_user")
     Call<Response<Void>> toggleUserBlock(@Field("session_id") String sessionId,
-                                                 @Field("user_id") int userId);
+                                         @Field("user_id") int userId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "save_pnotif_token")
     Call<Response<Void>> savePushNotificationToken(@Field("session_id") String sessionId,
-                                                           @Field("token") String token,
-                                                           @Field("type") String type);
+                                                   @Field("token") String token,
+                                                   @Field("type") String type);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "change_password")
     Call<Response<Void>> changePassword(@Field("session_id") String sessionId,
-                                                @Field("old_password") String oldPassword,
-                                                @Field("new_password") String newPassword);
+                                        @Field("old_password") String oldPassword,
+                                        @Field("new_password") String newPassword);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "refresh_access_token")
@@ -75,7 +72,7 @@ public interface ColibriSM {
 
     @FormUrlEncoded
     @POST(API_PREFIX + "logout")
-    Call<Response<Void>> logout(@Field("session_id") String sessionId);
+    Call<Response<Object>> logout(@Field("session_id") String sessionId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "verify_user")
@@ -98,47 +95,43 @@ public interface ColibriSM {
     @FormUrlEncoded
     @POST(API_PREFIX + "publication_report")
     Call<Response<Void>> reportPost(@Field("session_id") String sessionId,
-                                            @Field("post_id") int postId,
-                                            @Field("reason") int reason,
-                                            @Field("comment") String comment);
+                                    @Field("post_id") int postId,
+                                    @Field("reason") int reason,
+                                    @Field("comment") String comment);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "publication_repost")
     Call<Response<Reposts>> repost(@Field("session_id") String sessionId,
                                    @Field("post_id") int postId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "fetch_likes")
-    Call<Response<List<User>>> fetchLikes(@Field("session_id") String sessionId,
-                                          @Field("post_id") int postId,
-                                          @Field("page_size") int pageSize,
-                                          @Field("offset") int offset);
+    @GET(API_PREFIX + "fetch_likes")
+    Call<Response<List<User>>> fetchLikes(@Query("session_id") String sessionId,
+                                          @Query("post_id") int postId,
+                                          @Query("page_size") int pageSize,
+                                          @Query("offset") int offset);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_post")
     Call<Response<Void>> deletePost(@Field("session_id") String sessionId,
-                                            @Field("post_id") int postId);
+                                    @Field("post_id") int postId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "search_hashtags")
-    Call<Response<List<HashTag>>> searchHashtag(@Field("session_id") String sessionId,
-                                                @Field("query") String query,
-                                                @Field("offset") int offset,
-                                                @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "search_hashtags")
+    Call<Response<List<HashTag>>> searchHashtag(@Query("session_id") String sessionId,
+                                                @Query("query") String query,
+                                                @Query("offset") int offset,
+                                                @Query("page_size") int pageSize);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "search_people")
-    Call<Response<List<User>>> searchPeople(@Field("session_id") String sessionId,
-                                            @Field("query") String query,
-                                            @Field("offset") int offset,
-                                            @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "search_people")
+    Call<Response<List<User>>> searchPeople(@Query("session_id") String sessionId,
+                                            @Query("query") String query,
+                                            @Query("offset") int offset,
+                                            @Query("page_size") int pageSize);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "search_posts")
-    Call<Response<List<Post>>> searchPost(@Field("session_id") String sessionId,
-                                          @Field("query") String query,
-                                          @Field("offset") int offset,
-                                          @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "search_posts")
+    Call<Response<List<Post>>> searchPost(@Query("session_id") String sessionId,
+                                          @Query("query") String query,
+                                          @Query("offset") int offset,
+                                          @Query("page_size") int pageSize);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "gen_settings")
@@ -157,56 +150,50 @@ public interface ColibriSM {
     Call<Response<Follow>> toggleFollow(@Field("session_id") String sessionId,
                                         @Field("user_id") int userId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "fetch_following")
-    Call<Response<List<User>>> fetchFollowing(@Field("session_id") String sessionId,
-                                              @Field("user_id") int userId,
-                                              @Field("offset") int offset,
-                                              @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "fetch_following")
+    Call<Response<List<User>>> fetchFollowing(@Query("session_id") String sessionId,
+                                              @Query("user_id") int userId,
+                                              @Query("offset") int offset,
+                                              @Query("page_size") int pageSize);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "fetch_followers")
-    Call<Response<List<User>>> fetchFollowers(@Field("session_id") String sessionId,
-                                              @Field("user_id") int userId,
-                                              @Field("offset") int offset,
-                                              @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "fetch_followers")
+    Call<Response<List<User>>> fetchFollowers(@Query("session_id") String sessionId,
+                                              @Query("user_id") int userId,
+                                              @Query("offset") int offset,
+                                              @Query("page_size") int pageSize);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_notifications")
-    Call<Response<List<Notification>>> getNotifications(@Field("session_id") String sessionId,
-                                                        @Field("type") String type,
-                                                        @Field("page_size") int pageSize,
-                                                        @Field("offset") int offset);
+    @GET(API_PREFIX + "get_notifications")
+    Call<Response<List<Notification>>> getNotifications(@Query("session_id") String sessionId,
+                                                        @Query("type") String type,
+                                                        @Query("page_size") int pageSize,
+                                                        @Query("offset") int offset);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_notifs")
     Call<Response<Void>> deleteNotifications(@Field("session_id") String sessionId,
-                                                     @Field("scope") int[] scope);
+                                             @Field("scope") int[] scope);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_account")
     Call<Response<Void>> deleteAccount(@Field("session_id") String sessionId,
-                                               @Field("password") String password);
+                                       @Field("password") String password);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "language")
-        //todo creat entity from objects
     Call<Response<Void>> changeLanguage(@Field("session_id") String sessionId,
-                                                @Field("lang_name") String langName);
+                                        @Field("lang_name") String langName);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "profile")
-    Call<Response<User>> getProfile(@Field("session_id") String sessionId,
-                                    @Field("user_id") int userId,
-                                    @Field("username") String username);
+    @GET(API_PREFIX + "profile")
+    Call<Response<User>> getProfile(@Query("session_id") String sessionId,
+                                    @Query("user_id") int userId,
+                                    @Query("username") String username);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "profile_posts")
-    Call<Response<Posts>> getProfilePosts(@Field("session_id") String sessionId,
-                                          @Field("user_id") int userId,
-                                          @Field("type") String type,
-                                          @Field("offset") int offset,
-                                          @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "profile_posts")
+    Call<Response<Posts>> getProfilePosts(@Query("session_id") String sessionId,
+                                          @Query("user_id") int userId,
+                                          @Query("type") String type,
+                                          @Query("offset") int offset,
+                                          @Query("page_size") int pageSize);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "upload_post_media")
@@ -217,8 +204,8 @@ public interface ColibriSM {
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_post_media")
     Call<Response<Void>> deletePostMedia(@Field("session_id") String sessionId,
-                                                 @Field("type") String type,
-                                                 @Field("media_id") int mediaId);
+                                         @Field("type") String type,
+                                         @Field("media_id") int mediaId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "publish_post")
@@ -233,8 +220,8 @@ public interface ColibriSM {
     @FormUrlEncoded
     @POST(API_PREFIX + "change_post_privacy")
     Call<Response<Void>> changePostPrivacy(@Field("privacy") String sessionId,
-                                                   @Field("privacy") int postId,
-                                                   @Field("privacy") String privacy);
+                                           @Field("privacy") int postId,
+                                           @Field("privacy") String privacy);
 
     //TODO this, upload video and upload image - one and only method! Refactor this!
     @FormUrlEncoded
@@ -250,40 +237,36 @@ public interface ColibriSM {
     @FormUrlEncoded
     @POST(API_PREFIX + "publish_swift")
     Call<Response<Void>> publishSwift(@Field("session_id") String sessionId,
-                                              @Field("swift_text") String swiftText);
+                                      @Field("swift_text") String swiftText);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_swift")
     Call<Response<Void>> deleteSwift(@Field("session_id") String sessionId,
-                                             @Field("swid") String swiftId);
+                                     @Field("swid") String swiftId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_swifts")
-    Call<Response<List<User>>> getSwifts(@Field("session_id") String sessionId);
+    @GET(API_PREFIX + "get_swifts")
+    Call<Response<List<User>>> getSwifts(@Query("session_id") String sessionId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "reg_swift_view")
     Call<Response<Void>> registerSwiftView(@Field("session_id") String sessionId,
-                                                   @Field("user_id") int userId,
-                                                   @Field("username") String swiftId);
+                                           @Field("user_id") int userId,
+                                           @Field("username") String swiftId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "thread_data")
-    Call<Response<Thread>> fetchThreadData(@Field("session_id") String sessionId,
-                                           @Field("thread_id") int threadId);
+    @GET(API_PREFIX + "thread_data")
+    Call<Response<Thread>> fetchThreadData(@Query("session_id") String sessionId,
+                                           @Query("thread_id") int threadId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "thread_replys")
-    Call<Response<List<Post>>> fetchThreadReplies(@Field("session_id") String sessionId,
-                                                   @Field("thread_id") int threadId,
-                                                   @Field("page_size") int pageSize,
-                                                   @Field("offset") int offset);
+    @GET(API_PREFIX + "thread_replys")
+    Call<Response<List<Post>>> fetchThreadReplies(@Query("session_id") String sessionId,
+                                                  @Query("thread_id") int threadId,
+                                                  @Query("page_size") int pageSize,
+                                                  @Query("offset") int offset);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_bookmarks")
-    Call<Response<List<Post>>> getBookmarks(@Field("session_id") String sessionId,
-                                            @Field("page_size") int pageSize,
-                                            @Field("offset") int offset);
+    @GET(API_PREFIX + "get_bookmarks")
+    Call<Response<List<Post>>> getBookmarks(@Query("session_id") String sessionId,
+                                            @Query("page_size") int pageSize,
+                                            @Query("offset") int offset);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "add_bookmark")
@@ -305,23 +288,21 @@ public interface ColibriSM {
     Call<Response<Cover>> coverReposition(@Field("session_id") String sessionId,
                                           @Field("cover_position") int coverPosition);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_priv_settings")
-    Call<Response<PrivacySettings>> getPrivacySettings(@Field("session_id") String sessionId);
+    @GET(API_PREFIX + "get_priv_settings")
+    Call<Response<PrivacySettings>> getPrivacySettings(@Query("session_id") String sessionId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "set_priv_settings")
     Call<Response<Void>> setPrivacySettings(@Field("session_id") String sessionId,
-                                                    @Field("profile_visibility") String profileVisibility,
-                                                    @Field("contact_privacy") String contactPrivacy,
-                                                    @Field("follow_privacy") String followPrivacy,
-                                                    @Field("search_visibility") String searchVisibility);
+                                            @Field("profile_visibility") String profileVisibility,
+                                            @Field("contact_privacy") String contactPrivacy,
+                                            @Field("follow_privacy") String followPrivacy,
+                                            @Field("search_visibility") String searchVisibility);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "follow_requests")
-    Call<Response<List<User>>> followRequests(@Field("session_id") String sessionId,
-                                              @Field("offset") int offset,
-                                              @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "follow_requests")
+    Call<Response<List<User>>> followRequests(@Query("session_id") String sessionId,
+                                              @Query("offset") int offset,
+                                              @Query("page_size") int pageSize);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "accept_follow")
@@ -341,36 +322,33 @@ public interface ColibriSM {
                                         @Field("image") byte[] image,
                                         @Field("message") String message);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_chats")
-    Call<Response<List<User>>> getChats(@Field("session_id") String sessionId);
+    @GET(API_PREFIX + "get_chats")
+    Call<Response<List<User>>> getChats(@Query("session_id") String sessionId);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "get_messages")
-    Call<Response<List<Message>>> getMessages(@Field("session_id") String sessionId,
-                                              @Field("user_id") int userId,
-                                              @Field("offset_up") int offsetUp,
-                                              @Field("offset_down") int offsetDown,
-                                              @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "get_messages")
+    Call<Response<List<Message>>> getMessages(@Query("session_id") String sessionId,
+                                              @Query("user_id") int userId,
+                                              @Query("offset_up") int offsetUp,
+                                              @Query("offset_down") int offsetDown,
+                                              @Query("page_size") int pageSize);
 
-    @FormUrlEncoded
-    @POST(API_PREFIX + "search_messages")
-    Call<Response<List<Message>>> searchMessages(@Field("session_id") String sessionId,
-                                                 @Field("user_id") int userId,
-                                                 @Field("query") String query,
-                                                 @Field("offset_up") int offsetUp,
-                                                 @Field("offset_down") int offsetDown,
-                                                 @Field("page_size") int pageSize);
+    @GET(API_PREFIX + "search_messages")
+    Call<Response<List<Message>>> searchMessages(@Query("session_id") String sessionId,
+                                                 @Query("user_id") int userId,
+                                                 @Query("query") String query,
+                                                 @Query("offset_up") int offsetUp,
+                                                 @Query("offset_down") int offsetDown,
+                                                 @Query("page_size") int pageSize);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "delete_message")
     Call<Response<Void>> deleteMessage(@Field("session_id") String sessionId,
-                                               @Field("message_id") int messageId);
+                                       @Field("message_id") int messageId);
 
     @FormUrlEncoded
     @POST(API_PREFIX + "clear_chat")
     Call<Response<Void>> clearChat(@Field("session_id") String sessionId,
-                                           @Field("user_id") int userId,
-                                           @Field("delete_chat") int deleteChat);
+                                   @Field("user_id") int userId,
+                                   @Field("delete_chat") int deleteChat);
 
 }

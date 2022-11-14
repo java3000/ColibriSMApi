@@ -27,10 +27,10 @@ public class Post {
     String status; //?
     @SerializedName("thread_id")
     long threadId;
-    String target;
+    String target; //"target": "publication",
     @SerializedName("og_data")
-    String ogData;
-    String time;
+    Object ogData; //todo can be string and oject!! "og_data": "", "og_data": {"title": "...","type": "article", "image_loc": true }
+    String time; //"time": "14 Ноября, 21:38",
     @SerializedName("offset_id")
     int offsetId; //?
     @SerializedName("is_repost")
@@ -44,10 +44,10 @@ public class Post {
     @SerializedName("og_text")
     String ogText;
     @SerializedName("og_image")
-    URL ogImage;
+    String ogImage;
     URL url;
     @SerializedName("can_delete")
-    boolean canSelete;
+    boolean canDelete;
     List<Media> media;
     @SerializedName("is_owner")
     boolean isOwner;
@@ -61,4 +61,27 @@ public class Post {
     List<User> replyTo;
     List<Object> replys; //[], ????
     User owner;
+
+    //new in rutvit
+    @SerializedName("poll_data")
+    PollData pollData;
+    @SerializedName("priv_wcs")
+    String privWcs; //? "priv_wcs": "everyone",
+    @SerializedName("priv_wcr")
+    String privWcr; //? "priv_wcr": "everyone",
+    String edited; //"edited": "0",
+    @SerializedName("is_hide")
+    int isHide; // "is_hide": 0,
+    @SerializedName("htags")
+    List<HashTag> hashTags;
+    @SerializedName("can_edit")
+    boolean canEdit;
+    @SerializedName("is_blocked")
+    boolean isBlocked;
+    @SerializedName("is_reported")
+    boolean isReported;
+    @SerializedName("me_blocked")
+    boolean meBlocked;
+    @SerializedName("can_see")
+    boolean canSee;
 }

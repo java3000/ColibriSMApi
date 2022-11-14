@@ -2,6 +2,7 @@ package ru.java3000.colibrism.api;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -60,7 +61,7 @@ public final class ApiClient {
         Call<Response<UserWrapper>> request = service.login(email, password, "android");
 
         var response = callService(request);
-        if (response.getCode() == 200) {
+        if (response != null && response.getCode() == 200) {
             if (response.getData() != null) {
                 user = response.getData().getUser();
                 if (response.getAuth() != null) {
@@ -80,12 +81,14 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public void logout(String sessionId) throws ApiException {
+    public boolean logout(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
-        Call<Response<Void>> logoutResponse = service.logout(sessionId);
-        callService(logoutResponse);
+        Call<Response<Object>> logoutResponse = service.logout(sessionId);
+        var response = callService(logoutResponse);
+
+        return response.getCode() == 200;
     }
 
     /**
@@ -106,7 +109,7 @@ public final class ApiClient {
         Call<Response<UserWrapper>> request = service.socialLogin(token, type, "android");
 
         var response = callService(request);
-        if (response.getCode() == 200) {
+        if (response != null && response.getCode() == 200) {
             if (response.getData() != null) {
                 user = response.getData().getUser();
                 if (response.getAuth() != null) {
@@ -141,7 +144,7 @@ public final class ApiClient {
         Call<Response<Void>> signup = service.signup(firstName, lastName, email, username, password);
 
         var response = callService(signup);
-        if (response.getCode() == 200) {
+        if (response != null && response.getCode() == 200) {
             if (response.getAuth() != null) {
                 auth = response.getAuth();
             }
@@ -157,12 +160,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> resetPassword(String email) throws ApiException {
+    public boolean resetPassword(String email) throws ApiException {
         if (email.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> resetPasswordResponseCall = service.resetPassword(email);
-        return callService(resetPasswordResponseCall);
+        var response = callService(resetPasswordResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -175,12 +183,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Feeds> feeds(String sessionId, int offset, int pageSize) throws ApiException {
+    public List<Post> feeds(String sessionId, int offset, int pageSize) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Feeds>> feeds = service.feeds(offset, sessionId, pageSize);
-        return callService(feeds);
+        var response = callService(feeds);
+
+        if (response != null) {
+            return response.getData().getFeeds();
+        }
+        return null;
     }
 
     /**
@@ -201,12 +214,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> reportUser(int userId, String sessionId, int reason, String comment) throws ApiException {
+    public boolean reportUser(int userId, String sessionId, int reason, String comment) throws ApiException {
         if (sessionId.isBlank() || userId <= 0 || (reason == 0 || reason > 6))
             throw new IllegalArgumentException();
 
         Call<Response<Void>> reportUserResponseCall = service.reportProfile(sessionId, userId, reason, comment);
-        return callService(reportUserResponseCall);
+        var response = callService(reportUserResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -220,12 +238,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> toggleBlockUser(int userId, String sessionId) throws ApiException {
+    public boolean toggleBlockUser(int userId, String sessionId) throws ApiException {
         if (sessionId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> toggleBlockResponseCall = service.toggleUserBlock(sessionId, userId);
-        return callService(toggleBlockResponseCall);
+        var response = callService(toggleBlockResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -238,12 +261,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> savePushNotificationToken(String sessionId, String type, String token) throws ApiException {
+    public boolean savePushNotificationToken(String sessionId, String type, String token) throws ApiException {
         if (sessionId.isBlank() || type.isBlank() || token.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> pushNotificationResponseCall = service.savePushNotificationToken(sessionId, token, type);
-        return callService(pushNotificationResponseCall);
+        var response = callService(pushNotificationResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -256,12 +284,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> changePassword(String sessionId, String newPassword, String oldPassword) throws ApiException {
+    public boolean changePassword(String sessionId, String newPassword, String oldPassword) throws ApiException {
         if (sessionId.isBlank() || newPassword.isBlank() || oldPassword.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> changePasswordResponseCall = service.changePassword(sessionId, oldPassword, newPassword);
-        return callService(changePasswordResponseCall);
+        var response = callService(changePasswordResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -272,12 +305,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Auth> refreshAccessToken(String token) throws ApiException {
+    public Auth refreshAccessToken(String token) throws ApiException {
         if (token.isBlank())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("token is: " + token);
 
         Call<Response<Auth>> refreshAccessTokenResponseCall = service.refreshAccessToken(token);
-        return callService(refreshAccessTokenResponseCall);
+        var response = callService(refreshAccessTokenResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -291,13 +329,20 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Verification> verifyUser(String sessionId, String fullName,
-                                             String message, String video) throws ApiException {
+    public Verification verifyUser(String sessionId, String fullName,
+                                   String message, String video) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Verification>> verifyUserResponseCall = service.verifyUser(sessionId, message, video, fullName);
-        return callService(verifyUserResponseCall);
+        var response = callService(verifyUserResponseCall);
+
+        if (response != null) {
+            if (response.getData() != null) {
+                return response.getData();
+            }
+        }
+        return null;
     }
 
     /**
@@ -310,12 +355,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<PollData> votePoll(String sessionId, int postId, int pollId) throws ApiException {
+    public PollData votePoll(String sessionId, int postId, int pollId) throws ApiException {
         if (sessionId.isBlank() || postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<PollData>> voteResponseCall = service.votePoll(sessionId, postId, pollId);
-        return callService(voteResponseCall);
+        var response = callService(voteResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -327,12 +377,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Like> toggleLike(String sessionId, int postId) throws ApiException {
+    public boolean toggleLike(String sessionId, int postId) throws ApiException {
         if (sessionId.isBlank() || postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Like>> toggleLikeResponseCall = service.toggleLike(sessionId, postId);
-        return callService(toggleLikeResponseCall);
+        var response = callService(toggleLikeResponseCall);
+
+        if (response != null) {
+            return response.getData().isLiked();
+        }
+        return false;
     }
 
     /**
@@ -353,12 +408,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> reportPost(String sessionId, int postId, int reason, String comment) throws ApiException {
+    public boolean reportPost(String sessionId, int postId, int reason, String comment) throws ApiException {
         if (sessionId.isBlank() || postId <= 0 || (reason <= 0 || reason > 6))
             throw new IllegalArgumentException();
 
         Call<Response<Void>> reportPostResponseCall = service.reportPost(sessionId, postId, reason, comment);
-        return callService(reportPostResponseCall);
+        var response = callService(reportPostResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -366,16 +426,20 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param postId    Post int ID	E.g. 4567
-     * @return {@link Reposts} object - boolean result of operation
+     * @return boolean result of operation
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Reposts> repost(String sessionId, int postId) throws ApiException {
+    public boolean repost(String sessionId, int postId) throws ApiException {
         if (sessionId.isBlank() || postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Reposts>> repost = service.repost(sessionId, postId);
-        return callService(repost);
+        var response = callService(repost);
+
+        if (response != null)
+            return response.getData().getRepost().isRepost();
+        return false;
     }
 
     /**
@@ -390,12 +454,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> fetchLikes(String sessionId, int postId, int offset, int pageSize) throws ApiException {
+    public List<User> fetchLikes(String sessionId, int postId, int offset, int pageSize) throws ApiException {
         if (postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<List<User>>> fetchLikesResponseCall = service.fetchLikes(sessionId, postId, pageSize, offset);
-        return callService(fetchLikesResponseCall);
+        var response = callService(fetchLikesResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -407,12 +476,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deletePost(String sessionId, int postId) throws ApiException {
+    public boolean deletePost(String sessionId, int postId) throws ApiException {
         if (sessionId.isBlank() || postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deletePostResponseCall = service.deletePost(sessionId, postId);
-        return callService(deletePostResponseCall);
+        var response = callService(deletePostResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -426,9 +500,22 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<HashTag>> searchHashtag(String sessionId, String query, int offset, int pageSize) throws ApiException {
-        Call<Response<List<HashTag>>> searchHashtagResponseCall = service.searchHashtag(sessionId, query, offset, pageSize);
-        return callService(searchHashtagResponseCall);
+    public List<HashTag> searchHashtag(String sessionId,
+                                       String query,
+                                       int offset,
+                                       int pageSize) throws ApiException {
+        if (query.isBlank() || query.length() > 32)
+            throw new IllegalArgumentException("query MUST be not an empty and maximum 31 symbols length");
+
+        Call<Response<List<HashTag>>> searchHashtagResponseCall =
+                service.searchHashtag(sessionId, query, offset, pageSize);
+
+        var response = callService(searchHashtagResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -442,9 +529,19 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> searchPeople(String sessionId, String query, int offset, int pageSize) throws ApiException {
-        Call<Response<List<User>>> searchPeopleResponseCall = service.searchPeople(sessionId, query, offset, pageSize);
-        return callService(searchPeopleResponseCall);
+    public List<User> searchPeople(String sessionId,
+                                   String query,
+                                   int offset,
+                                   int pageSize) throws ApiException {
+        Call<Response<List<User>>> searchPeopleResponseCall =
+                service.searchPeople(sessionId, query, offset, pageSize);
+        var response = callService(searchPeopleResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+
+        return null;
     }
 
     /**
@@ -458,9 +555,19 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Post>> searchPost(String sessionId, String query, int offset, int pageSize) throws ApiException {
-        Call<Response<List<Post>>> searchPeopleResponseCall = service.searchPost(sessionId, query, offset, pageSize);
-        return callService(searchPeopleResponseCall);
+    public List<Post> searchPost(String sessionId,
+                                 String query,
+                                 int offset,
+                                 int pageSize) throws ApiException {
+        Call<Response<List<Post>>> searchPeopleResponseCall =
+                service.searchPost(sessionId, query, offset, pageSize);
+
+        var response = callService(searchPeopleResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     //todo add pin post to profile method
@@ -481,15 +588,20 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<User> updateProfile(String sessionId, String about, String userName,
-                                        String gender, String email, String firstName, String lastName,
-                                        int countryId, URL website) throws ApiException {
+    public User updateProfile(String sessionId, String about, String userName,
+                              String gender, String email, String firstName, String lastName,
+                              int countryId, URL website) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<User>> updateProfileResponseCall = service.updateProfile(sessionId, firstName, lastName, about,
                 gender, email, userName, website, countryId);
-        return callService(updateProfileResponseCall);
+        var response = callService(updateProfileResponseCall);
+
+        if (response != null)
+            return response.getData();
+
+        return null;
     }
 
     /**
@@ -497,16 +609,21 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param userId    Followed/Unfollowed user int ID	E.g. 4567
-     * @return {@link Follow} object - boolean result of operation
+     * @return boolean result of operation
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Follow> toggleFollow(String sessionId, int userId) throws ApiException {
+    public boolean toggleFollow(String sessionId, int userId) throws ApiException {
         if (sessionId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Follow>> toggleFollowResponseCall = service.toggleFollow(sessionId, userId);
-        return callService(toggleFollowResponseCall);
+        var response = callService(toggleFollowResponseCall);
+
+        if (response != null) {
+            return response.getData().isFollow();
+        }
+        return false;
     }
 
     /**
@@ -520,12 +637,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> fetchFollowing(String sessionId, int userId, int offset, int pageSize) throws ApiException {
+    public List<User> fetchFollowing(String sessionId, int userId, int offset, int pageSize) throws ApiException {
         if (userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<List<User>>> fetchFollowingResponseCall = service.fetchFollowing(sessionId, userId, offset, pageSize);
-        return callService(fetchFollowingResponseCall);
+        var response = callService(fetchFollowingResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -539,12 +661,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> fetchFollowers(String sessionId, int userId, int offset, int pageSize) throws ApiException {
+    public List<User> fetchFollowers(String sessionId, int userId, int offset, int pageSize) throws ApiException {
         if (userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<List<User>>> fetchFollowersResponseCall = service.fetchFollowers(sessionId, userId, offset, pageSize);
-        return callService(fetchFollowersResponseCall);
+        var response = callService(fetchFollowersResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -558,12 +685,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Notification>> getNotifications(String sessionId, String type, int offset, int pageSize) throws ApiException {
+    public List<Notification> getNotifications(String sessionId, String type, int offset, int pageSize) throws ApiException {
         if (sessionId.isBlank() || type.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<List<Notification>>> notifications = service.getNotifications(sessionId, type, pageSize, offset);
-        return callService(notifications);
+        var response = callService(notifications);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -575,12 +707,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deleteNotifications(String sessionId, int... scope) throws ApiException {
+    public boolean deleteNotifications(String sessionId, int... scope) throws ApiException {
         if (sessionId.isBlank() || scope.length == 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deleteNotificationsResponseCall = service.deleteNotifications(sessionId, scope);
-        return callService(deleteNotificationsResponseCall);
+        var response = callService(deleteNotificationsResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -592,12 +729,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deleteAccount(String sessionId, String password) throws ApiException {
+    public boolean deleteAccount(String sessionId, String password) throws ApiException {
         if (sessionId.isBlank() || password.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deleteAccountResponseCall = service.deleteAccount(sessionId, password);
-        return callService(deleteAccountResponseCall);
+        var response = callService(deleteAccountResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -620,12 +762,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> changeLanguage(String sessionId, String language) throws ApiException {
+    public boolean changeLanguage(String sessionId, String language) throws ApiException {
         if (sessionId.isBlank() || language.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> changeLanguageResponseCall = service.changeLanguage(sessionId, language);
-        return callService(changeLanguageResponseCall);
+        var response = callService(changeLanguageResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -642,12 +789,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<User> getProfile(String sessionId, String userName, int userId) throws ApiException {
+    public User getProfile(String sessionId, String userName, int userId) throws ApiException {
         if (sessionId.isBlank() || userName.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<User>> profile = service.getProfile(sessionId, userId, userName);
-        return callService(profile);
+        var response = callService(profile);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -665,12 +817,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Posts> getProfilePosts(String sessionId, int userId, String type, int offset, int pageSize) throws ApiException {
+    public List<Post> getProfilePosts(String sessionId, int userId, String type, int offset, int pageSize) throws ApiException {
         if (userId <= 0 || type.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Posts>> profilePosts = service.getProfilePosts(sessionId, userId, type, offset, pageSize);
-        return callService(profilePosts);
+        var response = callService(profilePosts);
+
+        if (response != null) {
+            return response.getData().getPosts();
+        }
+        return null;
     }
 
     /**
@@ -683,12 +840,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Media> uploadPostMedia(String sessionId, String type, byte[] file) throws ApiException {
+    public Media uploadPostMedia(String sessionId, String type, byte[] file) throws ApiException {
         if (sessionId.isBlank() || type.isBlank() || file.length == 0)
             throw new IllegalArgumentException();
 
         Call<Response<Media>> uploadPostMediaImageResponseCall = service.uploadPostMedia(sessionId, type, file);
-        return callService(uploadPostMediaImageResponseCall);
+        var response = callService(uploadPostMediaImageResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -701,12 +863,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deletePostMedia(String sessionId, String type, int mediaId) throws ApiException {
+    public boolean deletePostMedia(String sessionId, String type, int mediaId) throws ApiException {
         if (sessionId.isBlank() || type.isBlank() || mediaId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deletePostMediaResponseCall = service.deletePostMedia(sessionId, type, mediaId);
-        return callService(deletePostMediaResponseCall);
+        var response = callService(deletePostMediaResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -726,13 +893,18 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Post> publishPost(String sessionId, String text, String privacy, URL gif,
+    public Post publishPost(String sessionId, String text, String privacy, URL gif,
                                       String og, String poll, int threadId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Post>> publishPostResponseCall = service.publishPost(sessionId, text, threadId, gif, og, poll, privacy);
-        return callService(publishPostResponseCall);
+        var response = callService(publishPostResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -750,12 +922,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> changePostPrivacy(String sessionId, int postId, String privacy) throws ApiException {
+    public boolean changePostPrivacy(String sessionId, int postId, String privacy) throws ApiException {
         if (sessionId.isBlank() || postId <= 0 || privacy.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> changePostPrivacyResponseCall = service.changePostPrivacy(sessionId, postId, privacy);
-        return callService(changePostPrivacyResponseCall);
+        var response = callService(changePostPrivacyResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -768,12 +945,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<SwiftMedia> uploadSwiftMedia(String sessionId, String type, byte[] file) throws ApiException {
+    public SwiftMedia uploadSwiftMedia(String sessionId, String type, byte[] file) throws ApiException {
         if (sessionId.isBlank() || type.isBlank() || file.length == 0)
             throw new IllegalArgumentException();
 
         Call<Response<SwiftMedia>> uploadSwiftMediaResponseCall = service.uploadSwiftMedia(sessionId, type, file);
-        return callService(uploadSwiftMediaResponseCall);
+        var response = callService(uploadSwiftMediaResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -787,12 +969,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deleteSwiftMedia(String sessionId) throws ApiException {
+    public boolean deleteSwiftMedia(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deleteSwiftMediaResponseCall = service.deleteSwiftMedia(sessionId);
-        return callService(deleteSwiftMediaResponseCall);
+        var response = callService(deleteSwiftMediaResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -807,12 +994,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> publishSwift(String sessionId, String text) throws ApiException {
+    public boolean publishSwift(String sessionId, String text) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> publishSwiftResponseCall = service.publishSwift(sessionId, text);
-        return callService(publishSwiftResponseCall);
+        var response = callService(publishSwiftResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -824,12 +1016,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deleteSwift(String sessionId, String swiftId) throws ApiException {
+    public boolean deleteSwift(String sessionId, String swiftId) throws ApiException {
         if (sessionId.isBlank() || swiftId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deleteSwiftResponseCall = service.deleteSwift(sessionId, swiftId);
-        return callService(deleteSwiftResponseCall);
+        var response = callService(deleteSwiftResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     //todo refactor returning object to propper. this is not a user MAYBE
@@ -843,12 +1040,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> getSwifts(String sessionId) throws ApiException {
+    public List<User> getSwifts(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<List<User>>> swifts = service.getSwifts(sessionId);
-        return callService(swifts);
+        var response = callService(swifts);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -863,12 +1065,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> registerSwiftView(String sessionId, int userId, String swiftId) throws ApiException {
+    public boolean registerSwiftView(String sessionId, int userId, String swiftId) throws ApiException {
         if (sessionId.isBlank() || swiftId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> registerSwiftViewResponseCall = service.registerSwiftView(sessionId, userId, swiftId);
-        return callService(registerSwiftViewResponseCall);
+        var response = callService(registerSwiftViewResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -885,12 +1092,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Thread> fetchThreadData(String sessionId, int threadId) throws ApiException {
+    public Thread fetchThreadData(String sessionId, int threadId) throws ApiException {
         if (sessionId.isBlank() || threadId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Thread>> fetchThreadDataResponseCall = service.fetchThreadData(sessionId, threadId);
-        return callService(fetchThreadDataResponseCall);
+        var response = callService(fetchThreadDataResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -907,12 +1119,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Post>> fetchThreadReplies(String sessionId, int threadId, int offset, int pageSize) throws ApiException {
+    public List<Post> fetchThreadReplies(String sessionId, int threadId, int offset, int pageSize) throws ApiException {
         if (sessionId.isBlank() || threadId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<List<Post>>> fetchThreadRepliesResponseCall = service.fetchThreadReplies(sessionId, threadId, pageSize, offset);
-        return callService(fetchThreadRepliesResponseCall);
+        var response = callService(fetchThreadRepliesResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -925,12 +1142,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Post>> getBookmarks(String sessionId, int offset, int pageSize) throws ApiException {
+    public List<Post> getBookmarks(String sessionId, int offset, int pageSize) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<List<Post>>> bookmarks = service.getBookmarks(sessionId, pageSize, offset);
-        return callService(bookmarks);
+        var response = callService(bookmarks);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -942,12 +1164,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Bookmark> toggleBookmark(String sessionId, int postId) throws ApiException {
+    public boolean toggleBookmark(String sessionId, int postId) throws ApiException {
         if (sessionId.isBlank() || postId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Bookmark>> addBookmarkResponseCall = service.toggleBookmark(sessionId, postId);
-        return callService(addBookmarkResponseCall);
+        var response = callService(addBookmarkResponseCall);
+
+        if (response != null) {
+            return response.getData().isBookmark();
+        }
+        return false;
     }
 
     /**
@@ -959,12 +1186,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Avatar> changeAvatar(String sessionId, byte[] avatar) throws ApiException {
+    public Avatar changeAvatar(String sessionId, byte[] avatar) throws ApiException {
         if (sessionId.isBlank() || avatar.length == 0)
             throw new IllegalArgumentException();
 
         Call<Response<Avatar>> changeAvatarResponseCall = service.changeAvatar(sessionId, avatar);
-        return callService(changeAvatarResponseCall);
+        var response = callService(changeAvatarResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -976,12 +1208,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Cover> changeCover(String sessionId, byte[] cover) throws ApiException {
+    public Cover changeCover(String sessionId, byte[] cover) throws ApiException {
         if (sessionId.isBlank() || cover.length == 0)
             throw new IllegalArgumentException();
 
         Call<Response<Cover>> changeAvatarResponseCall = service.changeCover(sessionId, cover);
-        return callService(changeAvatarResponseCall);
+        var response = callService(changeAvatarResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -995,12 +1232,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Cover> coverReposition(String sessionId, int position) throws ApiException {
+    public Cover coverReposition(String sessionId, int position) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Cover>> coverRepositionResponseCall = service.coverReposition(sessionId, position);
-        return callService(coverRepositionResponseCall);
+        var response = callService(coverRepositionResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1011,12 +1253,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<PrivacySettings> getPrivacySettings(String sessionId) throws ApiException {
+    public PrivacySettings getPrivacySettings(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<PrivacySettings>> privacySettings = service.getPrivacySettings(sessionId);
-        return callService(privacySettings);
+        var response = callService(privacySettings);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1031,14 +1278,19 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> setPrivacySettings(String sessionId, String followPrivacy, String contactPrivacy,
+    public boolean setPrivacySettings(String sessionId, String followPrivacy, String contactPrivacy,
                                              String profileVisibility, String searchVisibility) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<Void>> setPrivacySettingsResponseCall = service.setPrivacySettings(sessionId, profileVisibility,
                 contactPrivacy, followPrivacy, searchVisibility);
-        return callService(setPrivacySettingsResponseCall);
+        var response = callService(setPrivacySettingsResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -1051,9 +1303,15 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> followRequests(String sessionId, int offset, int pageSize) throws ApiException {
+    public List<User> followRequests(String sessionId, int offset, int pageSize) throws ApiException {
         Call<Response<List<User>>> followRequestsResponseCall = service.followRequests(sessionId, offset, pageSize);
-        return callService(followRequestsResponseCall);
+
+        var response = callService(followRequestsResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1065,12 +1323,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<ApprovedRequests> approveFollowRequest(String sessionId, int requestId) throws ApiException {
+    public int approveFollowRequest(String sessionId, int requestId) throws ApiException {
         if (sessionId.isBlank() || requestId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<ApprovedRequests>> approveFollowRequestResponseCall = service.approveFollowRequest(sessionId, requestId);
-        return callService(approveFollowRequestResponseCall);
+        var response = callService(approveFollowRequestResponseCall);
+
+        if (response != null) {
+            return response.getData().getTotal();
+        }
+        return 0;
     }
 
     /**
@@ -1082,12 +1345,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<ApprovedRequests> ignoreFollowRequest(String sessionId, int requestId) throws ApiException {
+    public int ignoreFollowRequest(String sessionId, int requestId) throws ApiException {
         if (sessionId.isBlank() || requestId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<ApprovedRequests>> ignoreFollowRequestResponseCall = service.ignoreFollowRequest(sessionId, requestId);
-        return callService(ignoreFollowRequestResponseCall);
+        var response = callService(ignoreFollowRequestResponseCall);
+
+        if (response != null) {
+            return response.getData().getTotal();
+        }
+        return 0;
     }
 
     /**
@@ -1102,12 +1370,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Message> sendMessage(String sessionId, int userId, String type, String message, byte[] image) throws ApiException {
+    public Message sendMessage(String sessionId, int userId, String type, String message, byte[] image) throws ApiException {
         if (sessionId.isBlank() || type.isBlank() || userId <= 0 || message.length() > 3000)
             throw new IllegalArgumentException();
 
         Call<Response<Message>> sendMessageResponseCall = service.sendMessage(sessionId, userId, type, image, message);
-        return callService(sendMessageResponseCall);
+        var response = callService(sendMessageResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1118,12 +1391,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<User>> getChats(String sessionId) throws ApiException {
+    public List<User> getChats(String sessionId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<List<User>>> chats = service.getChats(sessionId);
-        return callService(chats);
+        var response = callService(chats);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1138,13 +1416,18 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Message>> getMessages(String sessionId, int userId, int pageSize,
+    public List<Message> getMessages(String sessionId, int userId, int pageSize,
                                                int offsetUp, int offsetDown) throws ApiException {
         if (sessionId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<List<Message>>> messages = service.getMessages(sessionId, userId, offsetUp, offsetDown, pageSize);
-        return callService(messages);
+        var response = callService(messages);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1160,14 +1443,19 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<List<Message>> searchMessages(String sessionId, String query, int userId,
+    public List<Message> searchMessages(String sessionId, String query, int userId,
                                                   int pageSize, int offsetUp, int offsetDown) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
         Call<Response<List<Message>>> searchMessageResponseCall = service.searchMessages(sessionId, userId, query,
                 offsetUp, offsetDown, pageSize);
-        return callService(searchMessageResponseCall);
+        var response = callService(searchMessageResponseCall);
+
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
     }
 
     /**
@@ -1179,12 +1467,17 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> deleteMessage(String sessionId, int messageId) throws ApiException {
+    public boolean deleteMessage(String sessionId, int messageId) throws ApiException {
         if (sessionId.isBlank() || messageId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> deleteMessageResponseCall = service.deleteMessage(sessionId, messageId);
-        return callService(deleteMessageResponseCall);
+        var response = callService(deleteMessageResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
     /**
@@ -1197,15 +1490,20 @@ public final class ApiClient {
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
-    public Response<Void> clearChat(String sessionId, int userId, int deleteAfterClearing) throws ApiException {
+    public boolean clearChat(String sessionId, int userId, int deleteAfterClearing) throws ApiException {
         if (sessionId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
         Call<Response<Void>> clearChatResponseCall = service.clearChat(sessionId, userId, deleteAfterClearing);
-        return callService(clearChatResponseCall);
+        var response = callService(clearChatResponseCall);
+
+        if (response != null) {
+            return response.getCode() == 200;
+        }
+        return false;
     }
 
-    private <T extends Response> T callService(Call<T> t) throws ApiException {
+    private <T extends Response> T callService(@NotNull Call<T> t) throws ApiException {
         try {
             retrofit2.Response<T> execute = t.execute();
 
