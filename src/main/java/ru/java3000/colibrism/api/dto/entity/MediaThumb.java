@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MediaThumb {
+class MediaThumb {
     @SerializedName("image_thumb")
     String imageThumb;
     @SerializedName("poster_thumb")

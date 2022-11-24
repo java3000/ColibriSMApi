@@ -3,6 +3,7 @@ package ru.java3000.colibrism.api;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,6 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
+@SuppressWarnings("SpellCheckingInspection")
 public final class ApiClient {
     private final ColibriSM service;
 
@@ -56,25 +58,13 @@ public final class ApiClient {
                 (password.isBlank() | password.length() > 60 | password.length() < 6))
             throw new IllegalArgumentException();
 
-        User user = null;
-
         Call<Response<UserWrapper>> request = service.login(email, password, "android");
-
         var response = callService(request);
-        if (response != null && response.getCode() == 200) {
-            if (response.getData() != null) {
-                user = response.getData().getUser();
-                if (response.getAuth() != null) {
-                    var auth = response.getAuth();
-                    user.setAuth(auth);
-                }
-            }
-        }
-        return user;
+        return getUser(response);
     }
 
     /**
-     * API for accessing user logouting endpoint
+     * API for accessing user logout endpoint
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @return empty response with 200 code
@@ -88,7 +78,7 @@ public final class ApiClient {
         Call<Response<Object>> logoutResponse = service.logout(sessionId);
         var response = callService(logoutResponse);
 
-        return response.getCode() == 200;
+        return (response != null ? response.getCode() : 0) == 200;
     }
 
     /**
@@ -104,11 +94,14 @@ public final class ApiClient {
         if (token.isBlank() || type.isBlank())
             throw new IllegalArgumentException();
 
+        Call<Response<UserWrapper>> request = service.socialLogin(token, type, "android");
+        var response = callService(request);
+        return getUser(response);
+    }
+
+    private User getUser(Response<UserWrapper> response) {
         User user = null;
 
-        Call<Response<UserWrapper>> request = service.socialLogin(token, type, "android");
-
-        var response = callService(request);
         if (response != null && response.getCode() == 200) {
             if (response.getData() != null) {
                 user = response.getData().getUser();
@@ -167,10 +160,7 @@ public final class ApiClient {
         Call<Response<Void>> resetPasswordResponseCall = service.resetPassword(email);
         var response = callService(resetPasswordResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -203,13 +193,13 @@ public final class ApiClient {
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param reason    Report reason int ID (This value must be an int number as shown on the right)
      *                  For example, if you want to report spam account, then this value should be 1
-     *                  1 = This user using this account for smap
+     *                  1 = This user using this account for spam
      *                  2 = This user pretended to be someone
      *                  3 = This user posting inappropriate content
      *                  4 = This is a fake account
      *                  5 = This is a fraudulent account
      *                  6 = Other
-     * @param comment   Comment to the reviwer	`Please take some actions. Thanks!`
+     * @param comment   Comment to the reviewer	`Please take some actions. Thanks!`
      * @return code 200 for success, 4xx - if request have an error
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
@@ -221,10 +211,7 @@ public final class ApiClient {
         Call<Response<Void>> reportUserResponseCall = service.reportProfile(sessionId, userId, reason, comment);
         var response = callService(reportUserResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -245,10 +232,7 @@ public final class ApiClient {
         Call<Response<Void>> toggleBlockResponseCall = service.toggleUserBlock(sessionId, userId);
         var response = callService(toggleBlockResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -268,10 +252,7 @@ public final class ApiClient {
         Call<Response<Void>> pushNotificationResponseCall = service.savePushNotificationToken(sessionId, token, type);
         var response = callService(pushNotificationResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -291,10 +272,7 @@ public final class ApiClient {
         Call<Response<Void>> changePasswordResponseCall = service.changePassword(sessionId, oldPassword, newPassword);
         var response = callService(changePasswordResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -350,7 +328,7 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param postId    Post int ID	E.g. 84
-     * @param pollId    Poll index ID (starts from 0,1,2,3 etc..)	E.g. To vote frist option of a poll send 0
+     * @param pollId    Poll index ID (starts from 0,1,2,3 etc..)	E.g. To vote first option of a poll send 0
      * @return poll statistics as {@link PollData} object
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
@@ -403,7 +381,7 @@ public final class ApiClient {
      *                  4 = Threats of violence or physical harm
      *                  5 = I am not interested in this post
      *                  6 = Other
-     * @param comment   Comment to the reviwer	`Please take some actions. Thanks!`
+     * @param comment   Comment to the reviewer	`Please take some actions. Thanks!`
      * @return code of operation state
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
@@ -415,10 +393,7 @@ public final class ApiClient {
         Call<Response<Void>> reportPostResponseCall = service.reportPost(sessionId, postId, reason, comment);
         var response = callService(reportPostResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -461,10 +436,7 @@ public final class ApiClient {
         Call<Response<List<User>>> fetchLikesResponseCall = service.fetchLikes(sessionId, postId, pageSize, offset);
         var response = callService(fetchLikesResponseCall);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
@@ -483,10 +455,7 @@ public final class ApiClient {
         Call<Response<Void>> deletePostResponseCall = service.deletePost(sessionId, postId);
         var response = callService(deletePostResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -537,11 +506,7 @@ public final class ApiClient {
                 service.searchPeople(sessionId, query, offset, pageSize);
         var response = callService(searchPeopleResponseCall);
 
-        if (response != null) {
-            return response.getData();
-        }
-
-        return null;
+        return getData(response);
     }
 
     /**
@@ -580,7 +545,7 @@ public final class ApiClient {
      * @param userName  User new username	E.g. mansurTL
      * @param gender    User gender (M/F/O/T)	E.g. M
      * @param email     User email address	E.g. email@email.com
-     * @param firstName User user first name	E.g. Mansur
+     * @param firstName User first name	E.g. Mansur
      * @param lastName  User user last name	E.g. ATL
      * @param countryId User country ID	E.g. 1 (United States)
      * @param website   User website URL	E.g. <a href="https://rutvit.com/">https://rutvit.com/</a>
@@ -644,10 +609,7 @@ public final class ApiClient {
         Call<Response<List<User>>> fetchFollowingResponseCall = service.fetchFollowing(sessionId, userId, offset, pageSize);
         var response = callService(fetchFollowingResponseCall);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
@@ -668,17 +630,14 @@ public final class ApiClient {
         Call<Response<List<User>>> fetchFollowersResponseCall = service.fetchFollowers(sessionId, userId, offset, pageSize);
         var response = callService(fetchFollowersResponseCall);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
      * API for accessing the endpoint of fetching user notifications & mentions
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
-     * @param type      Notification type (notifs/mentions)	E.g. `notifs`
+     * @param type      Notification type (notifications/mentions)	E.g. `notifs`
      * @param offset    Last record offset ID	This is only needed when loading records of the pagination system.
      * @param pageSize  Total records limit for each request	Recommended: 20
      * @return list of 	{@link Notification} objects
@@ -714,10 +673,7 @@ public final class ApiClient {
         Call<Response<Void>> deleteNotificationsResponseCall = service.deleteNotifications(sessionId, scope);
         var response = callService(deleteNotificationsResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -736,10 +692,7 @@ public final class ApiClient {
         Call<Response<Void>> deleteAccountResponseCall = service.deleteAccount(sessionId, password);
         var response = callService(deleteAccountResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -769,10 +722,7 @@ public final class ApiClient {
         Call<Response<Void>> changeLanguageResponseCall = service.changeLanguage(sessionId, language);
         var response = callService(changeLanguageResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -835,7 +785,7 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param type      Media file type (image/video)	E.g. image
-     * @param file      Media file (Image/Video)	E.g. some-selfy-picture.jpeg
+     * @param file      Media file (Image/Video)	E.g. some-self-picture.jpeg
      * @return {@link Media} object. Fields may be vary.
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
@@ -854,7 +804,7 @@ public final class ApiClient {
     }
 
     /**
-     * API endpoint for deleteing post multimedia files
+     * API endpoint for deleting post multimedia files
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param type      Media file type (Image/Video)	E.g. image
@@ -870,14 +820,11 @@ public final class ApiClient {
         Call<Response<Void>> deletePostMediaResponseCall = service.deletePostMedia(sessionId, type, mediaId);
         var response = callService(deletePostMediaResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
-     * API endpoint for pulishing port or it's reply
+     * API endpoint for publishing post or it's reply
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param text      Post text message (Max. 600 chars)	E.g. `Hello world!`
@@ -888,13 +835,13 @@ public final class ApiClient {
      * @param poll      Poll JSON data
      *                  Json array with poll option objects. E.g. [{"value": "Option 1"}, {"value": "Option 2"}, {..}]
      *                  From 2 to 4 options
-     * @param threadId  Thered int. ID	Required only for reply
+     * @param threadId  Thread int. ID	Required only for reply
      * @return {@link Post} object
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
     public Post publishPost(String sessionId, String text, String privacy, URL gif,
-                                      String og, String poll, int threadId) throws ApiException {
+                            String og, String poll, int threadId) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
@@ -929,10 +876,7 @@ public final class ApiClient {
         Call<Response<Void>> changePostPrivacyResponseCall = service.changePostPrivacy(sessionId, postId, privacy);
         var response = callService(changePostPrivacyResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -940,7 +884,7 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param type      Media file type (image/video)	E.g. image
-     * @param file      Media file (Image/Video)	E.g. some-selfy-picture.jpeg
+     * @param file      Media file (Image/Video)	E.g. some-self-picture.jpeg
      * @return {@link SwiftMedia}
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
@@ -959,7 +903,7 @@ public final class ApiClient {
     }
 
     /**
-     * API endpoint for deleteing swift media file
+     * API endpoint for deleting swift media file
      * In this case, you just need to send the above request to delete the swift media file,
      * that is, a request without additional parameters,
      * since the system itself will determine which file was last uploaded and delete it
@@ -976,14 +920,11 @@ public final class ApiClient {
         Call<Response<Void>> deleteSwiftMediaResponseCall = service.deleteSwiftMedia(sessionId);
         var response = callService(deleteSwiftMediaResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
-     * API endpoint for pulishing swift
+     * API endpoint for publishing swift
      * This stage of creating a swift assumes that you have already uploaded a media file, that is,
      * a video or an image of a swift. Since the media file is required when creating a swift,
      * unlike the description, you can send the description or not.
@@ -1001,14 +942,11 @@ public final class ApiClient {
         Call<Response<Void>> publishSwiftResponseCall = service.publishSwift(sessionId, text);
         var response = callService(publishSwiftResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
-     * API endpoint for deleteing swift
+     * API endpoint for deleting swift
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param swiftId   Swift hash id	E.g. `zpad2HalsbsLGhdI`
@@ -1023,17 +961,14 @@ public final class ApiClient {
         Call<Response<Void>> deleteSwiftResponseCall = service.deleteSwift(sessionId, swiftId);
         var response = callService(deleteSwiftResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
-    //todo refactor returning object to propper. this is not a user MAYBE
+    //todo refactor returning object to proper. this is not a user MAYBE
 
     /**
      * API endpoint for fetching user swifts list
-     * This endpoint will allow you to get all active swifts of the logged in user
+     * This endpoint will allow you to get all active swifts of the logged-in user
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @return list of {@link User} objects
@@ -1047,10 +982,7 @@ public final class ApiClient {
         Call<Response<List<User>>> swifts = service.getSwifts(sessionId);
         var response = callService(swifts);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
@@ -1072,17 +1004,14 @@ public final class ApiClient {
         Call<Response<Void>> registerSwiftViewResponseCall = service.registerSwiftView(sessionId, userId, swiftId);
         var response = callService(registerSwiftViewResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
      * API for accessing endpoint of post thread data
      * 1. The `post` variable contains the post data of the thread (The main post on the thread page)
      * 2. The variable `next` contains the responses to the thread
-     * (Each post data in this array can also contain `replys` variable with first few replys to it)
+     * (Each post data in this array can also contain `replies` variable with first few replies to it)
      * 3. A variable named `prev` contains the parent chain of the current thread (Only if there are parent posts)
      * 4. If the variable `can_reply` has a value (false), it means that the current user cannot reply to this post
      *
@@ -1106,9 +1035,9 @@ public final class ApiClient {
     }
 
     /**
-     * API for accessing endpoint of post thread replys
+     * API for accessing endpoint of post thread replies
      * Please note that each post item in `data` array can also contain `replys` variable
-     * with first few replys to it (see above)
+     * with first few replies to it (see above)
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
      * @param threadId  Thread int ID	E.g. 123456 (ID of any post to view replies and all details)
@@ -1279,7 +1208,7 @@ public final class ApiClient {
      * @throws IllegalArgumentException if arguments is null or empty
      */
     public boolean setPrivacySettings(String sessionId, String followPrivacy, String contactPrivacy,
-                                             String profileVisibility, String searchVisibility) throws ApiException {
+                                      String profileVisibility, String searchVisibility) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
@@ -1287,10 +1216,7 @@ public final class ApiClient {
                 contactPrivacy, followPrivacy, searchVisibility);
         var response = callService(setPrivacySettingsResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -1308,10 +1234,7 @@ public final class ApiClient {
 
         var response = callService(followRequestsResponseCall);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
@@ -1319,7 +1242,7 @@ public final class ApiClient {
      *
      * @param sessionId Access token ID (Optional)	E.g. de25cc16eb00960f076...
      * @param requestId Follow request int ID	E.g. 34
-     * @return {@link ApprovedRequests} wrapper object for total number of approverd requests
+     * @return {@link ApprovedRequests} wrapper object for total number of approved requests
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
@@ -1387,7 +1310,7 @@ public final class ApiClient {
      * API for accessing the endpoint of the chat list
      *
      * @param sessionId Access token ID	E.g. de25cc16eb00960f076...
-     * @return list of {@link User} objects. Fields may be vary
+     * @return list of {@link User} objects. Fields may be varied
      * @throws ApiException             if request return 4xx-5xx state codes. See exception message in this case
      * @throws IllegalArgumentException if arguments is null or empty
      */
@@ -1398,10 +1321,7 @@ public final class ApiClient {
         Call<Response<List<User>>> chats = service.getChats(sessionId);
         var response = callService(chats);
 
-        if (response != null) {
-            return response.getData();
-        }
-        return null;
+        return getData(response);
     }
 
     /**
@@ -1417,7 +1337,7 @@ public final class ApiClient {
      * @throws IllegalArgumentException if arguments is null or empty
      */
     public List<Message> getMessages(String sessionId, int userId, int pageSize,
-                                               int offsetUp, int offsetDown) throws ApiException {
+                                     int offsetUp, int offsetDown) throws ApiException {
         if (sessionId.isBlank() || userId <= 0)
             throw new IllegalArgumentException();
 
@@ -1444,7 +1364,7 @@ public final class ApiClient {
      * @throws IllegalArgumentException if arguments is null or empty
      */
     public List<Message> searchMessages(String sessionId, String query, int userId,
-                                                  int pageSize, int offsetUp, int offsetDown) throws ApiException {
+                                        int pageSize, int offsetUp, int offsetDown) throws ApiException {
         if (sessionId.isBlank())
             throw new IllegalArgumentException();
 
@@ -1474,10 +1394,7 @@ public final class ApiClient {
         Call<Response<Void>> deleteMessageResponseCall = service.deleteMessage(sessionId, messageId);
         var response = callService(deleteMessageResponseCall);
 
-        if (response != null) {
-            return response.getCode() == 200;
-        }
-        return false;
+        return isResponseSuccess(response);
     }
 
     /**
@@ -1497,13 +1414,24 @@ public final class ApiClient {
         Call<Response<Void>> clearChatResponseCall = service.clearChat(sessionId, userId, deleteAfterClearing);
         var response = callService(clearChatResponseCall);
 
+        return isResponseSuccess(response);
+    }
+
+    private boolean isResponseSuccess(Response<?> response) {
         if (response != null) {
             return response.getCode() == 200;
         }
         return false;
     }
 
-    private <T extends Response> T callService(@NotNull Call<T> t) throws ApiException {
+    private <T> T getData(Response<T> response) {
+        if (response != null) {
+            return response.getData();
+        }
+        return null;
+    }
+
+    private <T extends Response<?>> T callService(@NotNull Call<T> t) throws ApiException {
         try {
             retrofit2.Response<T> execute = t.execute();
 

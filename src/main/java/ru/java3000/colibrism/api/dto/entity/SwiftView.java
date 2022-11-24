@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.net.URL;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SwiftView {
+class SwiftView {
     int id;
     String username;
     String fname;

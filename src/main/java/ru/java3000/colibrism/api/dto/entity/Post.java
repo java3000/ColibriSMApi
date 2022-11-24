@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

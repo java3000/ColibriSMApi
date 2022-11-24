@@ -9,6 +9,6 @@ import java.net.URL;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SwiftMediaLink {
+class SwiftMediaLink {
     URL src;
 }

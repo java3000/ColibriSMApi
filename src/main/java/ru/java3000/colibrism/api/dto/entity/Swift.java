@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Swift {
+class Swift {
     Map<String, SwiftView> views;
     String time;
     String type;
@@ -20,5 +20,6 @@ public class Swift {
     long expTime;
     String text;
     int seen;
+    @SuppressWarnings("SpellCheckingInspection")
     String swid;
 }

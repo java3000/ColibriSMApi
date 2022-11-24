@@ -2,10 +2,6 @@ package ru.java3000.colibrism.api;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.junit.jupiter.api.*;
-import ru.java3000.colibrism.api.dto.entity.Auth;
-import ru.java3000.colibrism.api.dto.entity.User;
-import ru.java3000.colibrism.api.dto.entity.UserWrapper;
-import ru.java3000.colibrism.api.dto.response.Response;
 import ru.java3000.colibrism.api.exception.ApiException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ApiClientTest {
 
-    ApiClient client = new ApiClient("https://rutvit.com/", HttpLoggingInterceptor.Level.BODY);
+    final ApiClient client = new ApiClient("https://rutvit.com/", HttpLoggingInterceptor.Level.BODY);
     String authToken = "";
     String refreshToken = "";
 
