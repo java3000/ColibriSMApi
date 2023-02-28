@@ -18,7 +18,7 @@ class ApiClientTest {
     @Order(1)
     void login() {
         try {
-            var user = client.login("mailfortwitter@internet.ru","P@ssw0rd");
+            var user = client.login("","");
 
             assertNotNull(user);
             assertEquals("mailfortwitter@internet.ru", user.getEmail());
