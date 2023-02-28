@@ -21,7 +21,7 @@ class ApiClientTest {
             var user = client.login("","");
 
             assertNotNull(user);
-            assertEquals("mailfortwitter@internet.ru", user.getEmail());
+            assertEquals("", user.getEmail());
 
             authToken = user.getAuth().getAuthToken();
             refreshToken = user.getAuth().getRefreshToken();
